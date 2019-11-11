@@ -4,8 +4,11 @@ public abstract class Command {
 	
 	int command;
 	short op;
+	String line;
 	
-	public Command() {	}
+	public Command(String line) {
+		this.line = line;
+	}
 	
 	public abstract int toHex();
 }
