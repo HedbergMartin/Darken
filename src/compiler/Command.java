@@ -1,13 +1,16 @@
 package compiler;
 
 public abstract class Command {
-	
-	int command;
-	short op;
-	String line;
+
+	private int row;
+	private int address;
+
+	private short operation; // Add sub ..
+
+	private String originalLine;
 	
 	public Command(String line) {
-		this.line = line;
+		this.originalLine = line;
 	}
 	
 	public abstract int toHex();
