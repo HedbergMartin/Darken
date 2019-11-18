@@ -1,5 +1,7 @@
 package compiler;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ITypeCommand extends Command {
     private int op; // 6 bit

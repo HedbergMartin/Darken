@@ -89,7 +89,7 @@ public class Compiler {
 	}
 	
 
-	public static Map<String, type> COMMAND_TYPES = new HashMap<String, type>();
+	private static Map<String, type> COMMAND_TYPES = new HashMap<String, type>();
 	static {
         COMMAND_TYPES.put("add", type.R);
         COMMAND_TYPES.put("sub", type.R);

@@ -1,5 +1,7 @@
 package compiler;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RTypeCommand extends Command {
     private int op; // 6 bit
@@ -14,7 +16,7 @@ public class RTypeCommand extends Command {
     public RTypeCommand(String op, String rs, String rt, String rd, String line) {
         // set private ints
         super(line);
-        this.funct = func_encoding(op);
+        this.funct = func_encoding.get(op);
         this.rs = getRegisterNumber(rs);
         this.rt = getRegisterNumber(rt);
         this.rd = getRegisterNumber(rd);
@@ -53,7 +55,7 @@ public class RTypeCommand extends Command {
         return checkBits(8, getHex(initialConcatedString));
     }
 
-    public static Map<String, Integer> func_encoding = new HashMap<String, Integer>();
+    private static Map<String, Integer> func_encoding = new HashMap<String, Integer>();
     static {
         func_encoding.put("add", 32);
         func_encoding.put("sub", 34);
