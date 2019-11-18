@@ -11,7 +11,7 @@ public class RTypeCommand extends Command {
     // private int row;
     // private int address;         if commands should save which row and address it has.
 
-    public RTypeCommand(String line) {
+    public RTypeCommand(String op, String rs, String rt, String rd, String line) {
         // set private ints
         super(line);
     }

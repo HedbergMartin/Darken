@@ -1,6 +1,7 @@
 package compiler;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Queue;
@@ -39,33 +40,41 @@ public class Compiler {
 			} else if (line.charAt(0) == '#') {
 				//save to EmptyCommand with comment
 			} else {
-				String pattern = "([\\S\\-]+:)|([\\w\\-]+)|(\\$[\\w\\-]+)|(#.*)";
+				String pattern = "([\\S\\-]+:)|([\\w\\-]+)";
 				Pattern r = Pattern.compile(pattern);
 				Matcher m = r.matcher(line);
 				int i = 1;
-				//System.out.println("Group count: " + m.groupCount());
+				
+				String label = null;
+				ArrayList<String> list = new ArrayList<String>();
 				while (m.find()) {
-					String s = null;
-					if (i == 1) {
-						s = m.group(1);
-						if (s == null) {
-							i++;
-						}
+					if (m.group(1) != null) {
+					    label = m.group(1);
 					}
-					if (i == 2) {
-						s = m.group(2);
-						if (s == null) {
-							i++;
-						}
-					}
-					if (i == 3) {
-						s = m.group(3);
-						if (s == null) {
-							i++;
-						}
-					}
-					System.out.println("Found: (" + i + ") " + s);
-//					i++;
+				    if (m.group(2) != null) {
+				    	list.add(m.group(2));
+				    }
+				}
+				
+				System.out.println("LABEL IS: " + label + " Rest: " + list);
+				
+				type comType = COMMAND_TYPES.get(list.get(0));
+				switch (comType) {
+				case R:
+					new RTypeCommand(list.get(0), list.get(1), list.get(2), list.get(3), line);
+					break;
+					
+				case I:
+					new ITypeCommand(list.get(0), list.get(1), list.get(2), list.get(3), line);
+					break;
+					
+				case J:
+					new JTypeCommand(list.get(0), list.get(1), line);
+					break;
+
+				default:
+					//Nops
+					break;
 				}
 			}
 		}
@@ -80,22 +89,22 @@ public class Compiler {
 	}
 	
 
-	public static Map<String, type> comType = new HashMap<String, type>();
+	public static Map<String, type> COMMAND_TYPES = new HashMap<String, type>();
 	static {
-        comType.put("add", type.R);
-        comType.put("sub", type.R);
-        comType.put("and", type.R);
-        comType.put("or", type.R);
-        comType.put("nor", type.R);
-        comType.put("slt", type.R);
-        comType.put("lw", type.I);
-        comType.put("sw", type.I);
-        comType.put("beq", type.I);
-        comType.put("addi", type.I);
-        comType.put("sll", type.R);//Speciell
-        comType.put("j", type.J);
-        comType.put("jr", type.R);//Speciell
-        comType.put("nop", type.C);
+        COMMAND_TYPES.put("add", type.R);
+        COMMAND_TYPES.put("sub", type.R);
+        COMMAND_TYPES.put("and", type.R);
+        COMMAND_TYPES.put("or", type.R);
+        COMMAND_TYPES.put("nor", type.R);
+        COMMAND_TYPES.put("slt", type.R);
+        COMMAND_TYPES.put("lw", type.I);
+        COMMAND_TYPES.put("sw", type.I);
+        COMMAND_TYPES.put("beq", type.I);
+        COMMAND_TYPES.put("addi", type.I);
+        COMMAND_TYPES.put("sll", type.R);//Speciell
+        COMMAND_TYPES.put("j", type.J);
+        COMMAND_TYPES.put("jr", type.R);//Speciell
+        COMMAND_TYPES.put("nop", type.C);
     }
 	
 	private enum type {

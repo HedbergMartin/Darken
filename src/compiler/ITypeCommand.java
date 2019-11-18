@@ -9,7 +9,7 @@ public class ITypeCommand extends Command {
     // private int row;
     // private int address;         if commands should save which row and address it has.
 
-    public ITypeCommand(String line) {
+    public ITypeCommand(String op, String rs, String rt, String address, String line) {
         super(line);
     }
 

@@ -7,7 +7,7 @@ public class JTypeCommand extends Command {
     // private int address;         if commands should save which row and address it has.
 
 
-    public JTypeCommand(String line) {
+    public JTypeCommand(String op, String address, String line) {
         super(line);
 
     }
