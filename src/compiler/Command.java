@@ -47,11 +47,16 @@ public abstract class Command {
 
 	public abstract String toHex();
 
-	public int getRegisterNumber(String dollarCode){
+	/**
+     * Convert register code ($t3 $zero etc) to the corresponding int-value
+     * @param registerCode register code ($t3 $zero etc)
+     * @return corresponding int-value
+     */
+	public static int getRegisterNumber(String registerCode){
 
 		int registerNumber = -1;
 
-		switch(dollarCode) {
+		switch(registerCode) {
 			case "$zero":
 				registerNumber = 0;
 				break;
