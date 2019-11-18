@@ -11,6 +11,9 @@ public class ITypeCommand extends Command {
 
     public ITypeCommand(String op, String rs, String rt, String address, String line) {
         super(line);
+        this.op = opt_encoding.get(op);
+        this.rs = getRegisterNumber(rs);
+        this.rt = getRegisterNumber(rt);
     }
 
     public void setAddressOrImmediate(int addr){
@@ -44,5 +47,13 @@ public class ITypeCommand extends Command {
         System.out.println("Hexdecimal: " + getHex(initialConcatedString));
 
         return getHex(initialConcatedString);
+    }
+
+    public static Map<String, Integer> opt_encoding = new HashMap<String, Integer>();
+    static {
+        opt_encoding.put("lw", 35);
+        opt_encoding.put("sw", 43);
+        opt_encoding.put("beq", 4);
+        opt_encoding.put("addi", 8);
     }
 }

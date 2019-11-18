@@ -14,6 +14,10 @@ public class RTypeCommand extends Command {
     public RTypeCommand(String op, String rs, String rt, String rd, String line) {
         // set private ints
         super(line);
+        this.funct = func_encoding(op);
+        this.rs = getRegisterNumber(rs);
+        this.rt = getRegisterNumber(rt);
+        this.rd = getRegisterNumber(rd);
     }
 
     /**
@@ -47,6 +51,18 @@ public class RTypeCommand extends Command {
         System.out.println("initialConcatedString: " + initialConcatedString);
         System.out.println("Hexdecimal: " + checkBits(8, getHex(initialConcatedString)));
         return checkBits(8, getHex(initialConcatedString));
+    }
+
+    public static Map<String, Integer> func_encoding = new HashMap<String, Integer>();
+    static {
+        func_encoding.put("add", 32);
+        func_encoding.put("sub", 34);
+        func_encoding.put("and", 36);
+        func_encoding.put("or", 37);
+        func_encoding.put("nor", 39);
+        func_encoding.put("slt", 42);
+        func_encoding.put("sll", 0);//Speciell
+        func_encoding.put("jr", 8);//Speciell
     }
 }
 

@@ -9,7 +9,7 @@ public class JTypeCommand extends Command {
 
     public JTypeCommand(String op, String address, String line) {
         super(line);
-
+        op = 2;
     }
 
     public void setTargetAddress(int addr){
