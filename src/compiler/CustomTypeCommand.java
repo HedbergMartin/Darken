@@ -1,14 +1,16 @@
 package compiler;
 
-public class CustomTypeCommand extends Command {
+public class CustomTypeCommand {
+    private String commandLine;
+    private int row;
+    private int address;
 
-
-    public CustomTypeCommand(String line) {
-        super(line);
+    public CustomTypeCommand(String line, int row, int addr ) {
+        commandLine = line;
+        this.row = row;
+        address = addr;
     }
 
-    @Override
-    public int toHex() {
-        return 0;
-    }
+    public int getRow() { return row; }
+
 }

@@ -1,5 +1,4 @@
 package compiler;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Queue;
