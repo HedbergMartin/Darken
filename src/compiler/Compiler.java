@@ -82,13 +82,26 @@ public class Compiler {
 
 	public static Map<String, type> comType = new HashMap<String, type>();
 	static {
-        comType.put("Add", type.R);
-        comType.put("Sub", type.R);
+        comType.put("add", type.R);
+        comType.put("sub", type.R);
+        comType.put("and", type.R);
+        comType.put("or", type.R);
+        comType.put("nor", type.R);
+        comType.put("slt", type.R);
+        comType.put("lw", type.I);
+        comType.put("sw", type.I);
+        comType.put("beq", type.I);
+        comType.put("addi", type.I);
+        comType.put("sll", type.R);//Speciell
+        comType.put("j", type.J);
+        comType.put("jr", type.R);//Speciell
+        comType.put("nop", type.C);
     }
 	
 	private enum type {
 		R,
 		I,
-		J
+		J,
+        C
 	}
 }
