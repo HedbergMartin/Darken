@@ -1,14 +1,34 @@
 package compiler;
 
-public class CustomTypeCommand {
+public class CustomTypeCommand extends Command {
     private String commandLine;
     private int row;
     private int address;
 
-    public CustomTypeCommand(String line, int row, int addr ) {
+    public CustomTypeCommand(String line) {
+        super(line);
         commandLine = line;
         this.row = row;
-        address = addr;
+    }
+
+    @Override
+    public boolean hasMissingLabelAddress() {
+        return false;
+    }
+
+    @Override
+    public String getMissingLabelAddress() {
+        return null;
+    }
+
+    @Override
+    public void setMissingLabelAddress(int address) {
+        return;
+    }
+
+    @Override
+    public String toHex() {
+        return null;
     }
 
     public int getRow() { return row; }

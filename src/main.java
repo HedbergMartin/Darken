@@ -1,3 +1,5 @@
+import compiler.Compiler;
+
 import java.util.ArrayList;
 
 public class main {
@@ -8,6 +10,9 @@ public class main {
 
         // opcode	rs	rt	rd	shift (shamt)	funct
 
+        Compiler comp = new Compiler("testFile1.s");
+
+        /*
         Integer opcode = 2; // Addi 0010
         Integer rs = 10;
         Integer rt = 11;
@@ -40,7 +45,7 @@ public class main {
         System.out.println("---");
 
         createHexFromFields(opcode,rs,rt,rd,shamt,funct);
-
+        */
     }
 
     public static String createHexFromFields(Integer op, Integer rs, Integer rt, Integer rd, Integer shamt, Integer funct){

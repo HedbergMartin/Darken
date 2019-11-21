@@ -7,19 +7,32 @@ public class ITypeCommand extends Command {
     private int op; // 6 bit
     private int rs; // 5 bit
     private int rt; // 5 bit
-    private int addressOrImmediate; // 16 bit
+    private int addressOrImmediate = -1; // 16 bit
     // private int row;
     // private int address;         if commands should save which row and address it has.
+    private String address;
 
     public ITypeCommand(String op, String rs, String rt, String address, String line) {
         super(line);
         this.op = opt_encoding.get(op);
         this.rs = getRegisterNumber(rs);
         this.rt = getRegisterNumber(rt);
+        this.address = address;
     }
 
-    public void setAddressOrImmediate(int addr){
-        addressOrImmediate = addr;
+    @Override
+    public boolean hasMissingLabelAddress() {
+        return addressOrImmediate == -1;
+    }
+
+    @Override
+    public String getMissingLabelAddress() {
+        return address;
+    }
+
+    @Override
+    public void setMissingLabelAddress(int address) {
+        this.addressOrImmediate = address;
     }
 
     @Override

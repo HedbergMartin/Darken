@@ -22,6 +22,21 @@ public class RTypeCommand extends Command {
         this.rd = getRegisterNumber(rd);
     }
 
+    @Override
+    public boolean hasMissingLabelAddress() {
+        return false;
+    }
+
+    @Override
+    public String getMissingLabelAddress() {
+        return null;
+    }
+
+    @Override
+    public void setMissingLabelAddress(int address) {
+        return;
+    }
+
     /**
      * Convert a string instruction into
      * a string in hex decimal form.

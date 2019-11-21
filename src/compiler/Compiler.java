@@ -1,11 +1,7 @@
 package compiler;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Queue;
-import java.util.Scanner;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,6 +9,7 @@ public class Compiler {
 	
 	private Map<String, Integer> lableAddress;
 	//Todo update to I-Command
+	private Queue<Command> finishedCommands;
 	private Queue<Command> unfinishedRefs;
 	
 	/**
@@ -57,30 +54,51 @@ public class Compiler {
 				}
 				
 				System.out.println("LABEL IS: " + label + " Rest: " + list);
-				
+
+				Command newCommand = null;
 				type comType = COMMAND_TYPES.get(list.get(0));
 				switch (comType) {
 				case R:
-					new RTypeCommand(list.get(0), list.get(1), list.get(2), list.get(3), line);
+					newCommand = new RTypeCommand(list.get(0), list.get(1), list.get(2), list.get(3), line);
 					break;
 					
 				case I:
-					new ITypeCommand(list.get(0), list.get(1), list.get(2), list.get(3), line);
+					newCommand = new ITypeCommand(list.get(0), list.get(1), list.get(2), list.get(3), line);
 					break;
 					
 				case J:
-					new JTypeCommand(list.get(0), list.get(1), line);
+					newCommand = new JTypeCommand(list.get(0), list.get(1), line);
 					break;
 
 				default:
 					//Nops
+					newCommand = new CustomTypeCommand(line);
 					break;
 				}
+
+				finishedCommands.add(newCommand);
+
+				// Add unfinished commands to unfinishedRefs (To enter label-adresses missing)
+				if(newCommand.hasMissingLabelAddress()){
+					String missingLabelAddress = newCommand.getMissingLabelAddress();
+
+					if(lableAddress.containsKey(missingLabelAddress)){
+						newCommand.setMissingLabelAddress(lableAddress.get(missingLabelAddress));
+					}else{
+						unfinishedRefs.add(newCommand);
+					}
+				}
+
 			}
 		}
-		// Read file
-		// Save to arraylist of command
-		
+
+		// Go throuh unfninished commands and add missing label-adresses
+		while(!unfinishedRefs.isEmpty()){
+			Command currentUnfinishedCommand = unfinishedRefs.poll();
+			String missingLabelAddress = currentUnfinishedCommand.getMissingLabelAddress();
+			currentUnfinishedCommand.setMissingLabelAddress(lableAddress.get(missingLabelAddress));
+		}
+
 	}
 	
 	public void toHexFile() {

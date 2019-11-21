@@ -2,8 +2,8 @@ package compiler;
 
 public abstract class Command {
 	private int row;
-	private int address;
-	private short operation; // Add sub ..
+	private int address; // remove?
+	private short operation; // remove ?
 
 	private String originalLine;
 	
@@ -25,6 +25,11 @@ public abstract class Command {
 		}
 		return bits;
 	}
+
+
+	public abstract boolean hasMissingLabelAddress();
+	public abstract String getMissingLabelAddress();
+	public abstract void setMissingLabelAddress(int address);
 
 	/**
 	 * Convert integer into a binary string.
@@ -53,6 +58,10 @@ public abstract class Command {
      * @return corresponding int-value
      */
 	public static int getRegisterNumber(String registerCode){
+
+		System.out.println("getRegisterNumber got " + registerCode);
+
+		// TODO handle 42($v1) codes
 
 		int registerNumber = -1;
 
@@ -160,5 +169,9 @@ public abstract class Command {
 				registerNumber = Integer.parseInt(registerCode);
 		}
 		return registerNumber;
+	}
+
+	public String getOriginalLine() {
+		return originalLine;
 	}
 }
