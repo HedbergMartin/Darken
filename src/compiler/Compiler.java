@@ -102,6 +102,10 @@ public class Compiler {
 		}
 
 	}
+
+	public void prettyPrintFile(){
+		// Create pretty print file!
+	}
 	
 	public void toHexFile() {
 		//for every command line
