@@ -7,10 +7,10 @@ import java.util.regex.Pattern;
 
 public class Compiler {
 	
-	private Map<String, Integer> lableAddress;
+	private Map<String, Integer> lableAddress = new HashMap<String, Integer>();
 	//Todo update to I-Command
-	private Queue<Command> finishedCommands;
-	private Queue<Command> unfinishedRefs;
+	private Queue<Command> finishedCommands =  new LinkedList<>();
+	private Queue<Command> unfinishedRefs = new LinkedList<>();
 	
 	/**
 	 * 
@@ -52,7 +52,9 @@ public class Compiler {
 				    	list.add(m.group(2));
 				    }
 				}
-				
+
+				// TODO Set label addresses in the lableAddress-map
+
 				System.out.println("LABEL IS: " + label + " Rest: " + list);
 
 				Command newCommand = null;
