@@ -9,8 +9,13 @@ public class JTypeCommand extends Command {
 
     public JTypeCommand(String op, String address, String line) {
         super(line);
-        this.address = address;
-        this.op = 2;
+        if(line.equals("nop")){
+            this.targetAddress = 0;
+            this.op = 0;
+        } else  {
+            this.address = address;
+            this.op = 2;
+        }
     }
 
 

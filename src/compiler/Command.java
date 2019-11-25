@@ -48,8 +48,9 @@ public abstract class Command {
 	 * @return the converted String.
 	 */
 	static String getHex(String binaryForm){
-		int hex = Integer.parseInt(binaryForm,2);
-		return Integer.toString(hex,16);
+		//System.out.println("hexhex: " + binaryForm);
+		long hex = Long.parseLong(binaryForm,2);
+		return Long.toString(hex,16);
 	}
 
 	public abstract String toHex();

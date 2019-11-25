@@ -100,6 +100,7 @@ public class Compiler {
 							break;
 
 						default:
+                            System.out.println();
 							//Nops
 							newCommand = new CustomTypeCommand(line);
 							break;
@@ -164,7 +165,7 @@ public class Compiler {
         COMMAND_TYPES.put("sll", type.R);//Speciell
         COMMAND_TYPES.put("j", type.J);
         COMMAND_TYPES.put("jr", type.R);//Speciell
-        COMMAND_TYPES.put("nop", type.C);
+        COMMAND_TYPES.put("nop", type.J);
     }
 	
 	private enum type {
