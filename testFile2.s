@@ -8,6 +8,7 @@
 jump_here:
     sub     $s1, $t1, $s0
     nop
+    beq     $s2, $s4, jump_here
     nop
     add     $s2, $t0, $s0
     j       jump_here
