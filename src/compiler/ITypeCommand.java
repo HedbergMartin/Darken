@@ -18,6 +18,11 @@ public class ITypeCommand extends Command {
         this.rs = getRegisterNumber(rs);
         this.rt = getRegisterNumber(rt);
         this.address = address;
+
+        if(isInteger(address)){
+            addressOrImmediate = Integer.parseInt(address);
+        }
+
     }
 
     @Override
@@ -70,5 +75,17 @@ public class ITypeCommand extends Command {
         opt_encoding.put("sw", 43);
         opt_encoding.put("beq", 4);
         opt_encoding.put("addi", 8);
+    }
+
+    private static boolean isInteger(String s) {
+        try {
+            Integer.parseInt(s);
+        } catch(NumberFormatException e) {
+            return false;
+        } catch(NullPointerException e) {
+            return false;
+        }
+        // only got here if we didn't return false
+        return true;
     }
 }

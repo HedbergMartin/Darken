@@ -39,10 +39,10 @@ public class Compiler {
 			} else if (line.charAt(0) == '#') {
 				//save to EmptyCommand with comment
 			} else {
-				String pattern = "([\\S\\-]+:)|([\\w\\-]+)";
+				String pattern = "([\\S\\-]+:)|([\\(\\$\\w\\)\\-]+)|(#.*)";
 				Pattern r = Pattern.compile(pattern);
 				Matcher m = r.matcher(line);
-				
+
 				String label = null;
 				ArrayList<String> list = new ArrayList<String>();
 				while (m.find()) {
@@ -54,55 +54,78 @@ public class Compiler {
 				    }
 				}
 
+				if(list.isEmpty()){
+					System.out.println("No command after label");
+				}
+
 				if( label != null ){
+					System.out.println("Saving label: " + label + " on addr: " + currentAddress);
 					lableAddress.put(label,currentAddress);
 				}
 
 
 				System.out.println("LABEL IS: " + label + " Rest: " + list);
 
-				Command newCommand = null;
-				type comType = COMMAND_TYPES.get(list.get(0));
-				switch (comType) {
-				case R:
-					newCommand = new RTypeCommand(list.get(0), list.get(1), list.get(2), list.get(3), line);
-					break;
-					
-				case I:
-					newCommand = new ITypeCommand(list.get(0), list.get(1), list.get(2), list.get(3), line);
-					break;
-					
-				case J:
-					newCommand = new JTypeCommand(list.get(0), list.get(1), line);
-					break;
+				System.out.println("Whole line: " + line);
 
-				default:
-					//Nops
-					newCommand = new CustomTypeCommand(line);
-					break;
-				}
+				if(!list.isEmpty()){
 
-				finishedCommands.add(newCommand);
+					Command newCommand = null;
+					type comType = COMMAND_TYPES.get(list.get(0));
+					switch (comType) {
+						case R:
 
-				// Add unfinished commands to unfinishedRefs (To enter label-adresses missing)
-				if(newCommand.hasMissingLabelAddress()){
-					String missingLabelAddress = newCommand.getMissingLabelAddress();
+							System.out.println("list.get(0): " + list.get(0));
 
-					if(lableAddress.containsKey(missingLabelAddress)){
-						newCommand.setMissingLabelAddress(lableAddress.get(missingLabelAddress));
-					}else{
-						unfinishedRefs.add(newCommand);
+							// Special jr-case
+							if(list.get(0).equals("jr")){
+								newCommand = new RTypeCommand(list.get(0), list.get(1), "$zero", "$zero", line);
+							}else if(list.get(0).equals("sll")){
+								//newCommand = new RTypeCommand(list.get(0), list.get(1), "zero", "zero", line);
+							}else{
+								newCommand = new RTypeCommand(list.get(0), list.get(1), list.get(2), list.get(3), line);
+							}
+							break;
+
+						case I:
+							newCommand = new ITypeCommand(list.get(0), list.get(1), list.get(2), list.get(3), line);
+							break;
+
+						case J:
+							newCommand = new JTypeCommand(list.get(0), list.get(1), line);
+							break;
+
+						default:
+							//Nops
+							newCommand = new CustomTypeCommand(line);
+							break;
 					}
+
+					finishedCommands.add(newCommand);
+
+					// Add unfinished commands to unfinishedRefs (To enter label-adresses missing)
+					if(newCommand.hasMissingLabelAddress()){
+						String missingLabelAddress = newCommand.getMissingLabelAddress();
+
+						if(lableAddress.containsKey(missingLabelAddress)){
+							newCommand.setMissingLabelAddress(lableAddress.get(missingLabelAddress));
+						}else{
+							unfinishedRefs.add(newCommand);
+						}
+					}
+
 				}
 
 			}
 		}
 
-		// Go throuh unfninished commands and add missing label-adresses
+		// Go through unfninished commands and add missing label-adresses
 		while(!unfinishedRefs.isEmpty()){
 			Command currentUnfinishedCommand = unfinishedRefs.poll();
+			System.out.println("Adding missing label in line: " + currentUnfinishedCommand.getOriginalLine());
 			String missingLabelAddress = currentUnfinishedCommand.getMissingLabelAddress();
-			currentUnfinishedCommand.setMissingLabelAddress(lableAddress.get(missingLabelAddress));
+			System.out.println("missingLabelAdress: " + missingLabelAddress);
+			currentUnfinishedCommand.setMissingLabelAddress(lableAddress.get(missingLabelAddress + ":"));
 		}
 
 	}
@@ -115,7 +138,6 @@ public class Compiler {
 		//for every command line
 			//command.toHex
 	}
-	
 
 	private static Map<String, type> COMMAND_TYPES = new HashMap<String, type>();
 	static {

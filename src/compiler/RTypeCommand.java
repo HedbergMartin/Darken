@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RTypeCommand extends Command {
-    private int op; // 6 bit
+    private int op = 0; // 6 bit
     private int rs; // 5 bit
     private int rt; // 5 bit
     private int rd; // 5 bit
@@ -16,6 +16,7 @@ public class RTypeCommand extends Command {
     public RTypeCommand(String op, String rs, String rt, String rd, String line) {
         // set private ints
         super(line);
+        this.rs = getRegisterNumber(rs);
         this.funct = func_encoding.get(op);
         this.rs = getRegisterNumber(rs);
         this.rt = getRegisterNumber(rt);
