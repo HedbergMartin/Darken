@@ -63,7 +63,6 @@ public class Compiler {
 					lableAddress.put(label,currentAddress);
 				}
 
-
 				System.out.println("LABEL IS: " + label + " Rest: " + list);
 
 				System.out.println("Whole line: " + line);
@@ -88,7 +87,12 @@ public class Compiler {
 							break;
 
 						case I:
-							newCommand = new ITypeCommand(list.get(0), list.get(1), list.get(2), list.get(3), line);
+
+						    if(list.get(0).equals("sw") || list.get(0).equals("lw")){
+                                newCommand = new ITypeCommand(list.get(0), list.get(1), list.get(2), line);
+                            }else{
+                                newCommand = new ITypeCommand(list.get(0), list.get(1), list.get(2), list.get(3), line);
+                            }
 							break;
 
 						case J:
@@ -132,11 +136,17 @@ public class Compiler {
 
 	public void prettyPrintFile(){
 		// Create pretty print file!
+
 	}
 	
 	public void toHexFile() {
 		//for every command line
 			//command.toHex
+
+        System.out.println("------");
+        for (Command com: finishedCommands) {
+            System.out.println(com.toHex());
+        }
 	}
 
 	private static Map<String, type> COMMAND_TYPES = new HashMap<String, type>();

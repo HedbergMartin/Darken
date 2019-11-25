@@ -1,5 +1,8 @@
 package compiler;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public abstract class Command {
 	private int row;
 	private int address; // remove?
@@ -163,11 +166,49 @@ public abstract class Command {
 				break;
 			default:
 
-				System.out.println("Wtf! Error haven't seen this (" + registerCode + ") register-code before?!?");
-				System.out.println("I guess it is a immediate value! aaaaah");
-				registerNumber = Integer.parseInt(registerCode);
+				String pattern = "([\\$\\w\\-]+)";
+				Pattern r = Pattern.compile(pattern);
+				Matcher m = r.matcher(registerCode);
+
+				String multiplierString;
+				String insideRegisterString;
+
+				int multiplier = -1;
+				int insideRegister;
+
+				m.find();
+				multiplierString = m.group(1);
+
+				if(isInteger(multiplierString)){
+					multiplier = Integer.parseInt(multiplierString);
+				}
+
+				m.find();
+				insideRegister = getRegisterNumber(m.group(1));
+
+				registerNumber = multiplier * insideRegister;
+
+				//System.out.println("Wtf! Error haven't seen this (" + registerCode + ") register-code before?!?");
+				//System.out.println("I guess it is a immediate value! aaaaah");
+
+
+				//registerNumber = Integer.parseInt(registerCode);
+
+
 		}
 		return registerNumber;
+	}
+
+	private static boolean isInteger(String s) {
+		try {
+			Integer.parseInt(s);
+		} catch(NumberFormatException e) {
+			return false;
+		} catch(NullPointerException e) {
+			return false;
+		}
+		// only got here if we didn't return false
+		return true;
 	}
 
 	public String getOriginalLine() {

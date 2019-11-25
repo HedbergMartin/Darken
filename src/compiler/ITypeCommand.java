@@ -8,9 +8,15 @@ public class ITypeCommand extends Command {
     private int rs; // 5 bit
     private int rt; // 5 bit
     private int addressOrImmediate = -1; // 16 bit
-    // private int row;
-    // private int address;         if commands should save which row and address it has.
     private String address;
+
+    public ITypeCommand(String op, String rs, String rt, String line) {
+        super(line);
+        this.op = opt_encoding.get(op);
+        this.rs = getRegisterNumber(rs);
+        this.rt = 0;
+        addressOrImmediate = getRegisterNumber(rt);
+    }
 
     public ITypeCommand(String op, String rs, String rt, String address, String line) {
         super(line);
@@ -47,6 +53,7 @@ public class ITypeCommand extends Command {
             add(rs);
             add(rt);
             add(addressOrImmediate);
+
         }};
         System.out.println("initialValues: " + initialValues);
         String initialConcatedString = new String();
