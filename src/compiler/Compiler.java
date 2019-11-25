@@ -96,7 +96,11 @@ public class Compiler {
 							break;
 
 						case J:
-							newCommand = new JTypeCommand(list.get(0), list.get(1), line);
+							if(list.get(0).equals("nop")){
+								newCommand = new JTypeCommand(list.get(0), line);
+							} else {
+								newCommand = new JTypeCommand(list.get(0), list.get(1), line);
+							}
 							break;
 
 						default:

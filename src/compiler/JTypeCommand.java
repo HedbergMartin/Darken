@@ -9,13 +9,16 @@ public class JTypeCommand extends Command {
 
     public JTypeCommand(String op, String address, String line) {
         super(line);
-        if(line.equals("nop")){
-            this.targetAddress = 0;
-            this.op = 0;
-        } else  {
-            this.address = address;
-            this.op = 2;
-        }
+        this.address = address;
+        this.op = 2;
+
+    }
+
+    public JTypeCommand(String op, String line){
+        super(line);
+        this.targetAddress = 0;
+        this.op = 0;
+
     }
 
 
@@ -42,8 +45,8 @@ public class JTypeCommand extends Command {
     @Override
     public String toHex() {
         String binaryString = checkBits(6, getBinary(op)) + checkBits(26, getBinary(targetAddress));
-        System.out.println("initialConcatedString: " + binaryString);
-        System.out.println("Hexdecimal: " + checkBits(8, getHex(binaryString)));
+        //System.out.println("initialConcatedString: " + binaryString);
+        //System.out.println("Hexdecimal: " + checkBits(8, getHex(binaryString)));
         return checkBits(8, getHex(binaryString));
     }
 }
