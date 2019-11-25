@@ -28,8 +28,10 @@ public class Compiler {
 	// R-Command 
 	private void parseFile(File file) throws FileNotFoundException {
 		Scanner sc = new Scanner(file);
-		
+		int currentAddress = -4;
+
 		while (sc.hasNextLine()) {
+			currentAddress += 4;
 			String line = sc.nextLine();
 			System.out.println(line);
 			if (line.isEmpty()) {
@@ -40,7 +42,6 @@ public class Compiler {
 				String pattern = "([\\S\\-]+:)|([\\w\\-]+)";
 				Pattern r = Pattern.compile(pattern);
 				Matcher m = r.matcher(line);
-				int i = 1;
 				
 				String label = null;
 				ArrayList<String> list = new ArrayList<String>();
@@ -53,7 +54,10 @@ public class Compiler {
 				    }
 				}
 
-				// TODO Set label addresses in the lableAddress-map
+				if( label != null ){
+					lableAddress.put(label,currentAddress);
+				}
+
 
 				System.out.println("LABEL IS: " + label + " Rest: " + list);
 
