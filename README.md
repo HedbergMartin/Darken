@@ -11,7 +11,7 @@ To run the assembler you need a input file, path name to hex output text file an
 To run the assembler one runs the following:
 
 ```console
-foo@bar:~$ java  -jar Darken.jar <Input file> <Pretty print file path> <Hex output file path>
+foo@bar:~$ java  -jar Darken.jar <Input file> <Pretty print path> <Hex output path>
 ```
 
 #### Input file
