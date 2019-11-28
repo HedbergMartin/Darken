@@ -1,0 +1,14 @@
+						# Test program: j, jr
+0x00000000	0x21000040	    addi    $t0, $zero, 64
+0x00000004	0x21200014	    addi    $t1, $zero, 20
+0x00000008	0x02084825	    or      $s0, $t0, $t1
+0x0000000c	0x01200008	    jr      $t1
+0x00000010	0x00000000	    nop
+0x00000014	0x02298022	    sub     $s1, $t1, $s0
+0x00000018	0x00000000	    nop
+						    beq     $s2, $s4, jump_here	Error: Missing label
+0x0000001c	0x00000000	    nop
+0x00000020	0x02488020	    add     $s2, $t0, $s0
+						    j       jump_here	Error: Missing label
+
+Symbols 
