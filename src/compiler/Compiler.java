@@ -71,7 +71,9 @@ public class Compiler {
 
 				if(!list.isEmpty()){
 					Command newCommand = getCommandType(line, list);
-					finishedCommands.add(newCommand);
+					if( !finishedCommands.contains(newCommand)){
+						finishedCommands.add(newCommand);
+					}
 
 					// Add unfinished commands to unfinishedRefs (To enter label-adresses missing)
 					if(newCommand.hasMissingLabelAddress()){
@@ -90,7 +92,11 @@ public class Compiler {
 		while(!unfinishedRefs.isEmpty()){
 			Command currentUnfinishedCommand = unfinishedRefs.poll();
 			String missingLabelAddress = currentUnfinishedCommand.getMissingLabelAddress();
-			currentUnfinishedCommand.setMissingLabelAddress(lableAddress.get(missingLabelAddress + ":"));
+			if( lableAddress.get(missingLabelAddress + ":") == null){
+				currentUnfinishedCommand.setLine("	Error: Missing label");
+			} else {
+				currentUnfinishedCommand.setMissingLabelAddress(lableAddress.get(missingLabelAddress + ":"));
+			}
 		}
 
 	}
@@ -98,6 +104,11 @@ public class Compiler {
 	private Command getCommandType(String line, ArrayList<String> list) {
 		Command newCommand = null;
 		type comType = COMMAND_TYPES.get(list.get(0));
+		if( comType == null ){
+			line = line + "	Error: instruction not allowed";
+			finishedCommands.add(newCommand = new CustomTypeCommand(line,false));
+			return newCommand;
+		}
 		switch (comType) {
             case R:
                 // Special jr-case
@@ -106,21 +117,38 @@ public class Compiler {
                 }else if(list.get(0).equals("sll")){
                     //newCommand = new RTypeCommand(list.get(0), list.get(1), "zero", "zero", line);
                 }else{
-                    newCommand = new RTypeCommand(list.get(0), list.get(1), list.get(2), list.get(3), line);
+                	try{
+						newCommand = new RTypeCommand(list.get(0), list.get(1), list.get(2), list.get(3), line);
+					} catch(IndexOutOfBoundsException e) {
+                		line = line + "	Error: instruction call is not correct";
+                		newCommand = new CustomTypeCommand(line,false);
+					}
                 }
                 break;
             case I:
                 if(list.get(0).equals("sw") || list.get(0).equals("lw")){
                 	newCommand = new ITypeCommand(list.get(0), list.get(1), list.get(2), line);
                 }else{
-                	newCommand = new ITypeCommand(list.get(0), list.get(1), list.get(2), list.get(3), line);
+					try{
+						newCommand = new ITypeCommand(list.get(0), list.get(1), list.get(2), list.get(3), line);
+					} catch(IndexOutOfBoundsException e) {
+						line = line + "	Error: instruction call is not correct";
+						newCommand = new CustomTypeCommand(line,false);
+					}
+
                 }
                 break;
             case J:
                 if(list.get(0).equals("nop")){
                     newCommand = new JTypeCommand(list.get(0), line);
                 } else {
-                    newCommand = new JTypeCommand(list.get(0), list.get(1), line);
+					try{
+						newCommand = new JTypeCommand(list.get(0), list.get(1), line);
+					} catch(IndexOutOfBoundsException e) {
+						line = line + "	Error: instruction call is not correct";
+						newCommand = new CustomTypeCommand(line,false);
+					}
+
                 }
                 break;
             default:
@@ -158,19 +186,23 @@ public class Compiler {
 			writer.write(fileContent);
 			writer.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("Could not create file");
 		}
 
 	}
 	
 	public void toHexFile() {
-		//for every command line
-			//command.toHex
-
-        System.out.println("------");
+		String fileContent = "";
         for (Command com: finishedCommands) {
-            System.out.println(com.toHex());
+            fileContent = fileContent + com.toHex() + "\n";
         }
+		try {
+			BufferedWriter writer = new BufferedWriter(new FileWriter(prettyPrint));
+			writer.write(fileContent);
+			writer.close();
+		} catch (IOException e) {
+			System.out.println("Could not create file");
+		}
 	}
 
 	private static Map<String, type> COMMAND_TYPES = new HashMap<String, type>();

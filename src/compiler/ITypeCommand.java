@@ -52,6 +52,9 @@ public class ITypeCommand extends Command {
 
     @Override
     public String toHex() {
+        if( addressOrImmediate == -1){
+            return null;
+        }
         ArrayList<Integer> initialValues = new ArrayList<Integer>() {{
             add(op);
             add(rs);

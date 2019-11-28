@@ -182,4 +182,8 @@ public abstract class Command {
 		return originalLine;
 	}
 
+	public void setLine(String line){
+		originalLine = originalLine + line;
+	}
+
 }

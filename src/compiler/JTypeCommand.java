@@ -48,6 +48,9 @@ public class JTypeCommand extends Command {
      */
     @Override
     public String toHex() {
+        if( targetAddress == -1){
+            return null;
+        }
         String binaryString =  checkBits(6, getBinary(op)) + checkBits(26, getBinary(targetAddress));
         //System.out.println("initialConcatedString: " + binaryString);
         //System.out.println("Hexdecimal: " + checkBits(8, getHex(binaryString)));
