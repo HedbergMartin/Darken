@@ -4,11 +4,17 @@ public class CustomTypeCommand extends Command {
     private String commandLine;
     private int row;
     private int address;
+    private boolean islable;
 
-    public CustomTypeCommand(String line) {
+    public CustomTypeCommand(String line, boolean islabel) {
         super(line);
         commandLine = line;
+        this.islable = islabel;
         this.row = row;
+    }
+
+    public boolean islable(){
+        return islable;
     }
 
     @Override

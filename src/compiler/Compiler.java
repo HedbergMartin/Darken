@@ -1,9 +1,12 @@
 package compiler;
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static compiler.Utilities.checkBits;
+import static compiler.Utilities.getBinary;
+import static compiler.Utilities.getHex;
 
 public class Compiler {
 	
@@ -11,13 +14,17 @@ public class Compiler {
 	//Todo update to I-Command
 	private Queue<Command> finishedCommands =  new LinkedList<>();
 	private Queue<Command> unfinishedRefs = new LinkedList<>();
+	private String prettyPrint;
+	private String hexFile;
 	
 	/**
 	 * 
 	 * Input: File
 	 */
-	public Compiler(String pathName) {
-		File file = new File(pathName);
+	public Compiler(String inputFile, String prettyPrint, String hexFile) {
+		File file = new File(inputFile);
+		this.prettyPrint = prettyPrint;
+		this.hexFile = hexFile;
 		try {
 			parseFile(file);
 		} catch (FileNotFoundException e) {
@@ -31,14 +38,15 @@ public class Compiler {
 		int currentAddress = -4;
 
 		while (sc.hasNextLine()) {
-			currentAddress += 4;
 			String line = sc.nextLine();
-			System.out.println(line);
+			//System.out.println(line);
 			if (line.isEmpty()) {
 				//save to EmptyCommand without comment
 			} else if (line.charAt(0) == '#') {
-				//save to EmptyCommand with comment
+				Command comment = new CustomTypeCommand(line,false);
+				finishedCommands.add(comment);
 			} else {
+				currentAddress += 4;
 				String pattern = "([\\S\\-]+:)|([\\(\\$\\w\\)\\-]+)|(#.*)";
 				Pattern r = Pattern.compile(pattern);
 				Matcher m = r.matcher(line);
@@ -53,63 +61,16 @@ public class Compiler {
 				    	list.add(m.group(2));
 				    }
 				}
-
-				if(list.isEmpty()){
+				/*if(list.isEmpty()){
 					System.out.println("No command after label");
-				}
-
+				}*/
 				if( label != null ){
-					System.out.println("Saving label: " + label + " on addr: " + currentAddress);
 					lableAddress.put(label,currentAddress);
+					finishedCommands.add(new CustomTypeCommand(label,true));
 				}
-
-				System.out.println("LABEL IS: " + label + " Rest: " + list);
-
-				System.out.println("Whole line: " + line);
 
 				if(!list.isEmpty()){
-
-					Command newCommand = null;
-					type comType = COMMAND_TYPES.get(list.get(0));
-					switch (comType) {
-						case R:
-
-							System.out.println("list.get(0): " + list.get(0));
-
-							// Special jr-case
-							if(list.get(0).equals("jr")){
-								newCommand = new RTypeCommand(list.get(0), list.get(1), "$zero", "$zero", line);
-							}else if(list.get(0).equals("sll")){
-								//newCommand = new RTypeCommand(list.get(0), list.get(1), "zero", "zero", line);
-							}else{
-								newCommand = new RTypeCommand(list.get(0), list.get(1), list.get(2), list.get(3), line);
-							}
-							break;
-
-						case I:
-
-						    if(list.get(0).equals("sw") || list.get(0).equals("lw")){
-                                newCommand = new ITypeCommand(list.get(0), list.get(1), list.get(2), line);
-                            }else{
-                                newCommand = new ITypeCommand(list.get(0), list.get(1), list.get(2), list.get(3), line);
-                            }
-							break;
-
-						case J:
-							if(list.get(0).equals("nop")){
-								newCommand = new JTypeCommand(list.get(0), line);
-							} else {
-								newCommand = new JTypeCommand(list.get(0), list.get(1), line);
-							}
-							break;
-
-						default:
-                            System.out.println();
-							//Nops
-							newCommand = new CustomTypeCommand(line);
-							break;
-					}
-
+					Command newCommand = getCommandType(line, list);
 					finishedCommands.add(newCommand);
 
 					// Add unfinished commands to unfinishedRefs (To enter label-adresses missing)
@@ -122,25 +83,83 @@ public class Compiler {
 							unfinishedRefs.add(newCommand);
 						}
 					}
-
 				}
-
 			}
 		}
-
 		// Go through unfninished commands and add missing label-adresses
 		while(!unfinishedRefs.isEmpty()){
 			Command currentUnfinishedCommand = unfinishedRefs.poll();
-			System.out.println("Adding missing label in line: " + currentUnfinishedCommand.getOriginalLine());
 			String missingLabelAddress = currentUnfinishedCommand.getMissingLabelAddress();
-			System.out.println("missingLabelAdress: " + missingLabelAddress);
 			currentUnfinishedCommand.setMissingLabelAddress(lableAddress.get(missingLabelAddress + ":"));
 		}
 
 	}
 
+	private Command getCommandType(String line, ArrayList<String> list) {
+		Command newCommand = null;
+		type comType = COMMAND_TYPES.get(list.get(0));
+		switch (comType) {
+            case R:
+                // Special jr-case
+                if(list.get(0).equals("jr")){
+                    newCommand = new RTypeCommand(list.get(0), list.get(1), "$zero", "$zero", line);
+                }else if(list.get(0).equals("sll")){
+                    //newCommand = new RTypeCommand(list.get(0), list.get(1), "zero", "zero", line);
+                }else{
+                    newCommand = new RTypeCommand(list.get(0), list.get(1), list.get(2), list.get(3), line);
+                }
+                break;
+            case I:
+                if(list.get(0).equals("sw") || list.get(0).equals("lw")){
+                	newCommand = new ITypeCommand(list.get(0), list.get(1), list.get(2), line);
+                }else{
+                	newCommand = new ITypeCommand(list.get(0), list.get(1), list.get(2), list.get(3), line);
+                }
+                break;
+            case J:
+                if(list.get(0).equals("nop")){
+                    newCommand = new JTypeCommand(list.get(0), line);
+                } else {
+                    newCommand = new JTypeCommand(list.get(0), list.get(1), line);
+                }
+                break;
+            default:
+                //Nops
+                newCommand = new CustomTypeCommand(line,false);
+                break;
+        }
+		return newCommand;
+	}
+
 	public void prettyPrintFile(){
 		// Create pretty print file!
+		String fileContent = "";
+		int rowAddress = 0;
+
+		for (Command com : finishedCommands) {
+			if( com.toHex() == null ){
+				fileContent = fileContent + "						" + com.getOriginalLine() + "\n";
+			} else {
+				String hexAddress = checkBits(8,getHex(checkBits(32,getBinary(rowAddress))));
+				fileContent = fileContent + "0x"+hexAddress + "	" + "0x"+com.toHex() +
+						"	" + com.getOriginalLine() + "\n";
+				rowAddress+=4;
+			}
+		}
+		fileContent = fileContent + "\nSymbols \n";
+		for (String label : lableAddress.keySet()) {
+			String hexAddress = checkBits(8,getHex(checkBits(32,getBinary(lableAddress.get(label)))));
+			fileContent = fileContent + label + "	" +"0x"+ hexAddress + "\n";
+		}
+		//System.out.println(fileContent);
+
+		try {
+			BufferedWriter writer = new BufferedWriter(new FileWriter(prettyPrint));
+			writer.write(fileContent);
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 	}
 	

@@ -1,5 +1,9 @@
 package compiler;
 
+import static compiler.Utilities.checkBits;
+import static compiler.Utilities.getBinary;
+import static compiler.Utilities.getHex;
+
 public class JTypeCommand extends Command {
     private int op; // 6 bit
     private int targetAddress = -1; // 26 bit
@@ -44,7 +48,7 @@ public class JTypeCommand extends Command {
      */
     @Override
     public String toHex() {
-        String binaryString = checkBits(6, getBinary(op)) + checkBits(26, getBinary(targetAddress));
+        String binaryString =  checkBits(6, getBinary(op)) + checkBits(26, getBinary(targetAddress));
         //System.out.println("initialConcatedString: " + binaryString);
         //System.out.println("Hexdecimal: " + checkBits(8, getHex(binaryString)));
         return checkBits(8, getHex(binaryString));

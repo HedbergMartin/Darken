@@ -3,6 +3,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static compiler.Utilities.checkBits;
+import static compiler.Utilities.getBinary;
+import static compiler.Utilities.getHex;
+
 public class RTypeCommand extends Command {
     private int op = 0; // 6 bit
     private int rs; // 5 bit

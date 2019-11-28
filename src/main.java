@@ -6,15 +6,15 @@ public class main {
 
 
     public static void main(String[] args) {
-        System.out.println("Starting program");
+        //System.out.println("Starting program");
 
         // opcode	rs	rt	rd	shift (shamt)	funct
 
-        Compiler comp = new Compiler("testFile1.s");
-        Compiler comp2 = new Compiler("testFile2.s");
+        //Compiler comp = new Compiler("testFile1.s","output.txt" ,"blaaa");
+        Compiler comp2 = new Compiler("testFile2.s","output.txt" ,"blaaa");
 
-
-        comp.toHexFile();
+        comp2.prettyPrintFile();
+        //comp.toHexFile();
 
         //comp2.toHexFile();
     }

@@ -3,7 +3,7 @@
 	nor $t1, $zero, $zero
 	sub $t1, $zero, $t1
 	add $t2, $t1, $t1
-	add $t3, $t2, $t1
+	add $t3, $t2, $t1 #woop
 	and $t4, $t2, $t3
 	or  $t4, $t2, $t1
 	slt $t5, $t1, $t2
