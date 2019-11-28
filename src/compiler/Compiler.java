@@ -187,10 +187,12 @@ public class Compiler {
 	public void toHexFile() {
 		String fileContent = "";
         for (Command com: finishedCommands) {
-            fileContent = fileContent + com.toHex() + "\n";
+        	if(com.toHex() != null){
+				fileContent = fileContent + com.toHex() + "\n";
+			}
         }
 		try {
-			BufferedWriter writer = new BufferedWriter(new FileWriter(prettyPrint));
+			BufferedWriter writer = new BufferedWriter(new FileWriter(hexFile));
 			writer.write(fileContent);
 			writer.close();
 		} catch (IOException e) {}
