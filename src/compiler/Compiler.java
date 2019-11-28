@@ -39,7 +39,6 @@ public class Compiler {
 
 		while (sc.hasNextLine()) {
 			String line = sc.nextLine();
-			//System.out.println(line);
 			if (line.isEmpty()) {
 				//save to EmptyCommand without comment
 			} else if (line.charAt(0) == '#') {
@@ -61,9 +60,6 @@ public class Compiler {
 				    	list.add(m.group(2));
 				    }
 				}
-				/*if(list.isEmpty()){
-					System.out.println("No command after label");
-				}*/
 				if( label != null ){
 					lableAddress.put(label,currentAddress);
 					finishedCommands.add(new CustomTypeCommand(label,true));
@@ -179,15 +175,12 @@ public class Compiler {
 			String hexAddress = checkBits(8,getHex(checkBits(32,getBinary(lableAddress.get(label)))));
 			fileContent = fileContent + label + "	" +"0x"+ hexAddress + "\n";
 		}
-		//System.out.println(fileContent);
 
 		try {
 			BufferedWriter writer = new BufferedWriter(new FileWriter(prettyPrint));
 			writer.write(fileContent);
 			writer.close();
-		} catch (IOException e) {
-			System.out.println("Could not create file");
-		}
+		} catch (IOException e) {}
 
 	}
 	
@@ -200,9 +193,7 @@ public class Compiler {
 			BufferedWriter writer = new BufferedWriter(new FileWriter(prettyPrint));
 			writer.write(fileContent);
 			writer.close();
-		} catch (IOException e) {
-			System.out.println("Could not create file");
-		}
+		} catch (IOException e) {}
 	}
 
 	private static Map<String, type> COMMAND_TYPES = new HashMap<String, type>();

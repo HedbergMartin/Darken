@@ -27,11 +27,6 @@ public abstract class Command {
      * @return corresponding int-value
      */
 	public static int getRegisterNumber(String registerCode){
-
-		//System.out.println("getRegisterNumber got " + registerCode);
-
-		// TODO handle 42($v1) codes
-
 		int registerNumber = -1;
 
 		switch(registerCode) {
@@ -154,14 +149,6 @@ public abstract class Command {
 				insideRegister = getRegisterNumber(m.group(1));
 
 				registerNumber = multiplier * insideRegister;
-
-				//System.out.println("Wtf! Error haven't seen this (" + registerCode + ") register-code before?!?");
-				//System.out.println("I guess it is a immediate value! aaaaah");
-
-
-				//registerNumber = Integer.parseInt(registerCode);
-
-
 		}
 		return registerNumber;
 	}

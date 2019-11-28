@@ -62,7 +62,6 @@ public class ITypeCommand extends Command {
             add(addressOrImmediate);
 
         }};
-        //System.out.println("initialValues: " + initialValues);
         String initialConcatedString = new String();
 
         int counter = 0;
@@ -76,9 +75,6 @@ public class ITypeCommand extends Command {
             }
             counter++;
         }
-
-        //System.out.println("initialConcatedString: " + initialConcatedString);
-        //System.out.println("Hexdecimal: " + getHex(initialConcatedString));
 
         return getHex(initialConcatedString);
     }
