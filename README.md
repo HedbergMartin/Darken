@@ -1,9 +1,9 @@
 # Obligatory Assignment 1 - A MIPS Assembler
 ## Group members
 * Emil Söderlind (id15esd)
-* Filippa D Lidman ()
-* Amanda Ryman ()
-* Martin Hedberg ()
+* Filippa D Lidman (c17fdn)
+* Amanda Ryman (bio16arn)
+* Martin Hedberg (c17mhg)
 ## User manual
 To run the assembler you need a input file, path name to hex output text file and path name to pretty print text file.
 
