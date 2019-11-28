@@ -42,7 +42,7 @@ public class Compiler {
 			if (line.isEmpty()) {
 				//save to EmptyCommand without comment
 			} else if (line.charAt(0) == '#') {
-				Command comment = new CustomTypeCommand(line,false);
+				Command comment = new CustomTypeCommand(line);
 				finishedCommands.add(comment);
 			} else {
 				currentAddress += 4;
@@ -62,7 +62,9 @@ public class Compiler {
 				}
 				if( label != null ){
 					lableAddress.put(label,currentAddress);
-					finishedCommands.add(new CustomTypeCommand(label,true));
+					if( list.isEmpty() ){
+						finishedCommands.add(new CustomTypeCommand(label));
+					}
 				}
 
 				if(!list.isEmpty()){
@@ -102,7 +104,7 @@ public class Compiler {
 		type comType = COMMAND_TYPES.get(list.get(0));
 		if( comType == null ){
 			line = line + "	Error: instruction not allowed";
-			finishedCommands.add(newCommand = new CustomTypeCommand(line,false));
+			finishedCommands.add(newCommand = new CustomTypeCommand(line));
 			return newCommand;
 		}
 		switch (comType) {
@@ -117,7 +119,7 @@ public class Compiler {
 						newCommand = new RTypeCommand(list.get(0), list.get(1), list.get(2), list.get(3), line);
 					} catch(IndexOutOfBoundsException e) {
                 		line = line + "	Error: instruction call is not correct";
-                		newCommand = new CustomTypeCommand(line,false);
+                		newCommand = new CustomTypeCommand(line);
 					}
                 }
                 break;
@@ -129,7 +131,7 @@ public class Compiler {
 						newCommand = new ITypeCommand(list.get(0), list.get(1), list.get(2), list.get(3), line);
 					} catch(IndexOutOfBoundsException e) {
 						line = line + "	Error: instruction call is not correct";
-						newCommand = new CustomTypeCommand(line,false);
+						newCommand = new CustomTypeCommand(line);
 					}
 
                 }
@@ -142,14 +144,14 @@ public class Compiler {
 						newCommand = new JTypeCommand(list.get(0), list.get(1), line);
 					} catch(IndexOutOfBoundsException e) {
 						line = line + "	Error: instruction call is not correct";
-						newCommand = new CustomTypeCommand(line,false);
+						newCommand = new CustomTypeCommand(line);
 					}
 
                 }
                 break;
             default:
                 //Nops
-                newCommand = new CustomTypeCommand(line,false);
+                newCommand = new CustomTypeCommand(line);
                 break;
         }
 		return newCommand;
