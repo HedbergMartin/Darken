@@ -7,20 +7,11 @@
 ## User manual
 To run the assembler you need a input file, path name to hex output text file and path name to pretty print text file.
 
-#### Compiling assembler
-To compile the assembler one runs the following:
-
-```console
-foo@bar:~$ whoami
-foo
-```
-
 #### Running assembler
 To run the assembler one runs the following:
 
 ```console
-foo@bar:~$ whoami
-foo
+foo@bar:~$ java  -jar Darken.jar <Input file> <Pretty print file path> <Hex output file path>
 ```
 
 #### Input file
