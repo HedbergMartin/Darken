@@ -35,7 +35,7 @@ public class Compiler {
 	// R-Command 
 	private void parseFile(File file) throws FileNotFoundException {
 		Scanner sc = new Scanner(file);
-		int currentAddress = -4;
+		int currentAddress = 0;
 
 		while (sc.hasNextLine()) {
 			String line = sc.nextLine();
@@ -45,7 +45,6 @@ public class Compiler {
 				Command comment = new CustomTypeCommand(line);
 				finishedCommands.add(comment);
 			} else {
-				currentAddress += 4;
 				String pattern = "([\\S\\-]+:)|([\\(\\$\\w\\)\\-]+)|(#.*)";
 				Pattern r = Pattern.compile(pattern);
 				Matcher m = r.matcher(line);
@@ -84,6 +83,8 @@ public class Compiler {
 						}
 					}
 				}
+
+				currentAddress += 4;
 			}
 		}
 		// Go through unfninished commands and add missing label-adresses
