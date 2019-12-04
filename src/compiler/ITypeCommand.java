@@ -13,8 +13,10 @@ public class ITypeCommand extends Command {
     private int rt; // 5 bit
     private int addressOrImmediate = -1; // 16 bit
     private String address;
+    private String op_string;
 
-    public ITypeCommand(String op, String rs, String rt, String line) {
+    //Tror är för sw och lw
+    public ITypeCommand(String op, String rt, String rs, String line) {
         super(line);
         this.op = opt_encoding.get(op);
         this.rs = getRegisterNumber(rs);
@@ -22,8 +24,9 @@ public class ITypeCommand extends Command {
         addressOrImmediate = getRegisterNumber(rt);
     }
 
-    public ITypeCommand(String op, String rs, String rt, String address, String line) {
+    public ITypeCommand(String op, String rt, String rs, String address, String line) {
         super(line);
+        op_string = op;
         this.op = opt_encoding.get(op);
         this.rs = getRegisterNumber(rs);
         this.rt = getRegisterNumber(rt);
@@ -69,7 +72,11 @@ public class ITypeCommand extends Command {
             if(counter == 0 ) {
                 initialConcatedString = initialConcatedString + checkBits(6, getBinary(content));
             } else if(counter == 3){
-                initialConcatedString = initialConcatedString + checkBits(16, getBinary(content));
+                if( op_string.compareTo("beq") > 0){
+                    initialConcatedString = initialConcatedString + checkBits(16, getBinary(content>>2));
+                } else {
+                    initialConcatedString = initialConcatedString + checkBits(16, getBinary(content));
+                }
             } else {
                 initialConcatedString = initialConcatedString + checkBits(5, getBinary(content));
             }

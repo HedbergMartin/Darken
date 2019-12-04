@@ -12,19 +12,34 @@ public class RTypeCommand extends Command {
     private int rs; // 5 bit
     private int rt; // 5 bit
     private int rd; // 5 bit
-    private int shamt; // 5 bit
+    private int shamt = 0; // 5 bit
     private int funct; // 6 bit
     // private int row;
     // private int address;         if commands should save which row and address it has.
 
-    public RTypeCommand(String op, String rs, String rt, String rd, String line) {
+    public RTypeCommand(String op, String rd, String rt, String rs, String line) {
         // set private ints
         super(line);
-        this.rs = getRegisterNumber(rs);
-        this.funct = func_encoding.get(op);
-        this.rs = getRegisterNumber(rs);
-        this.rt = getRegisterNumber(rt);
-        this.rd = getRegisterNumber(rd);
+
+        if(op.compareTo("sll") > 0){
+            this.rs = 0;
+            this.rt = getRegisterNumber(rs);
+            this.rd = getRegisterNumber(rd);
+            this.shamt = getRegisterNumber(rt);
+            this.funct = func_encoding.get(op);
+        } else if(op.compareTo("jr") > 0){
+            this.rs = getRegisterNumber(rd);
+            this.rt = 0;
+            this.rd = 0;
+            this.shamt = 0;
+            this.funct = func_encoding.get(op);
+        } else {
+            this.rs = getRegisterNumber(rs);
+            this.rt = getRegisterNumber(rt);
+            this.rd = getRegisterNumber(rd);
+            this.shamt = 0;
+            this.funct = func_encoding.get(op);
+        }
     }
 
     @Override

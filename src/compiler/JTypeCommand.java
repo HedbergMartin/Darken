@@ -51,7 +51,7 @@ public class JTypeCommand extends Command {
         if( targetAddress == -1){
             return null;
         }
-        String binaryString =  checkBits(6, getBinary(op)) + checkBits(26, getBinary(targetAddress));
+        String binaryString =  checkBits(6, getBinary(op)) + checkBits(26, getBinary(targetAddress>>2));
         return checkBits(8, getHex(binaryString));
     }
 }
