@@ -7,16 +7,6 @@ public class RegisterPanel extends JPanel {
     private JTable table;
     private DefaultTableModel model;
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame();
-        frame.setSize(550, 400);
-        RegisterPanel p = new RegisterPanel();
-
-        frame.add(p);
-        frame.setVisible(true);
-
-    }
-
     public RegisterPanel () {
         createPanel();
     }
