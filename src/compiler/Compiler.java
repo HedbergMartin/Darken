@@ -113,8 +113,6 @@ public class Compiler {
                 // Special jr-case
                 if(list.get(0).equals("jr")){
                     newCommand = new RTypeCommand(list.get(0), list.get(1), "$zero", "$zero", line);
-                }else if(list.get(0).equals("sll")){
-                    //newCommand = new RTypeCommand(list.get(0), list.get(1), "zero", "zero", line);
                 }else{
                 	try{
 						newCommand = new RTypeCommand(list.get(0), list.get(1), list.get(2), list.get(3), line);
