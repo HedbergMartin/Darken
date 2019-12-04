@@ -18,3 +18,4 @@ label:	nop
 	sub $t4, $t3, $t3
 	beq $t4, $zero, label
 	nop
+	sll $s1, $t1, 14

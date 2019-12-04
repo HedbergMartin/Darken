@@ -161,7 +161,38 @@ public abstract class Command {
      * @return corresponding int-value
      */
 	public static int getRegisterNumber(String registerCode){
+		if (REG_NUMBERS.get(registerCode) == null) {
+			return -1;
+		}
+		return REG_NUMBERS.get(registerCode);
+	}
+	
+	public static int getBase(String registerCode) {
+		if (REG_NUMBERS.get(registerCode) == null) {
+			String pattern = "([\\d\\-]+)|(\\$[\\w]+)";
+			Pattern r = Pattern.compile(pattern);
+			Matcher m = r.matcher(registerCode);
+	
+			int insideRegister;
+	
+			if (!m.find()) {
+				return -1;
+			}
+	
+			if (!m.find()) {
+				return -1;
+			}
+			
+			insideRegister = getRegisterNumber(m.group(2));
+	
+			return insideRegister;
+		}
+		
+		return REG_NUMBERS.get(registerCode);
+	}
 
+	
+	public static int getOffset(String registerCode) {
 		if (REG_NUMBERS.get(registerCode) == null) {
 			String pattern = "([\\d\\-]+)|(\\$[\\w]+)";
 			Pattern r = Pattern.compile(pattern);
@@ -170,7 +201,6 @@ public abstract class Command {
 			String multiplierString;
 	
 			int multiplier = -1;
-			int insideRegister;
 	
 			if (!m.find()) {
 				return -1;
@@ -179,17 +209,14 @@ public abstract class Command {
 	
 			if(isInteger(multiplierString)){
 				multiplier = Integer.parseInt(multiplierString);
-			}
-	
-			if (!m.find()) {
+			} else {
 				return -1;
 			}
-			insideRegister = getRegisterNumber(m.group(2));
 	
-			return multiplier * insideRegister;
+			return multiplier;
 		}
 		
-		return REG_NUMBERS.get(registerCode);
+		return 0;
 	}
 
 	private static boolean isInteger(String s) {

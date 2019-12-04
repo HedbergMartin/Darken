@@ -38,7 +38,7 @@ public class JTypeCommand extends Command {
 
     @Override
     public void setMissingLabelAddress(int address) {
-        this.targetAddress = address;
+        this.targetAddress = (address >> 2);
     }
 
     /**
@@ -48,11 +48,11 @@ public class JTypeCommand extends Command {
      */
     @Override
     public String toHex() {
-        if( targetAddress == -1){
-            return null;
-        }
-        String binaryString =  checkBits(6, getBinary(op)) + checkBits(26, getBinary(targetAddress>>2));
-        return checkBits(8, getHex(binaryString));
+    	int result = op;
+    	result = result << 26;
+    	result += targetAddress;
+    	
+        return String.format("%08X", result);
     }
 }
 

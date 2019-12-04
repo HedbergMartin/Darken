@@ -15,13 +15,13 @@ public class ITypeCommand extends Command {
     private String address;
     private String op_string;
 
-    //Tror är för sw och lw
-    public ITypeCommand(String op, String rt, String rs, String line) {
+    //Är för sw och lw
+    public ITypeCommand(String op, String rt, String target, String line) {
         super(line);
         this.op = opt_encoding.get(op);
-        this.rs = getRegisterNumber(rs);
-        this.rt = 0;
-        addressOrImmediate = getRegisterNumber(rt);
+        this.rs = getBase(target);
+        this.rt = getRegisterNumber(rt);
+        addressOrImmediate = getOffset(target);
     }
 
     public ITypeCommand(String op, String rt, String rs, String address, String line) {
@@ -50,40 +50,20 @@ public class ITypeCommand extends Command {
 
     @Override
     public void setMissingLabelAddress(int address) {
-        this.addressOrImmediate = address;
+        this.addressOrImmediate = (address >> 2);
     }
 
     @Override
     public String toHex() {
-        if( addressOrImmediate == -1){
-            return null;
-        }
-        ArrayList<Integer> initialValues = new ArrayList<Integer>() {{
-            add(op);
-            add(rs);
-            add(rt);
-            add(addressOrImmediate);
+    	int result = op;
+        result = result << 5;
+        result += rs;
+        result = result << 5;
+        result += rt;
+        result = result << 16;
+        result += addressOrImmediate;
 
-        }};
-        String initialConcatedString = new String();
-
-        int counter = 0;
-        for (int content: initialValues ) {
-            if(counter == 0 ) {
-                initialConcatedString = initialConcatedString + checkBits(6, getBinary(content));
-            } else if(counter == 3){
-                if( op_string.compareTo("beq") > 0){
-                    initialConcatedString = initialConcatedString + checkBits(16, getBinary(content>>2));
-                } else {
-                    initialConcatedString = initialConcatedString + checkBits(16, getBinary(content));
-                }
-            } else {
-                initialConcatedString = initialConcatedString + checkBits(5, getBinary(content));
-            }
-            counter++;
-        }
-
-        return getHex(initialConcatedString);
+        return String.format("%08X", result);
     }
 
     public static Map<String, Integer> opt_encoding = new HashMap<String, Integer>();

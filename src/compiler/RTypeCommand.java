@@ -64,27 +64,19 @@ public class RTypeCommand extends Command {
      */
     @Override
     public String toHex() {
-        ArrayList<Integer> initialValues = new ArrayList<Integer>() {{
-            add(op);
-            add(rs);
-            add(rt);
-            add(rd);
-            add(shamt);
-            add(funct);
-        }};
-        String initialConcatedString = new String();
+    	int result = op;
+    	result = result << 5;
+    	result += rs;
+    	result = result << 5;
+    	result += rt;
+    	result = result << 5;
+    	result += rd;
+    	result = result << 5;
+    	result += shamt;
+    	result = result << 6;
+    	result += funct;
 
-        int counter = 0;
-        for (int content: initialValues ) {
-            if(counter == 0 || counter == 5) {
-                initialConcatedString = initialConcatedString + checkBits(6, getBinary(content));
-            } else {
-                initialConcatedString = initialConcatedString + checkBits(5, getBinary(content));
-            }
-            counter++;
-        }
-
-        return checkBits(8, getHex(initialConcatedString));
+        return String.format("%08X", result);
     }
 
     private static Map<String, Integer> func_encoding = new HashMap<String, Integer>();
