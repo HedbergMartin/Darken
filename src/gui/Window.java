@@ -10,7 +10,7 @@ public class Window extends JFrame {
 		super("Mips Simulator");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setSize(new Dimension(1024, 1024));
-		this.completeWindow();
+		//this.completeWindow();
 	}
 	
 	/**

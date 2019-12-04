@@ -1,5 +1,4 @@
 import compiler.Compiler;
-import gui.Window;
 
 public class MIPSAssembler {
 
@@ -10,6 +9,5 @@ public class MIPSAssembler {
         Compiler compiler = new Compiler(args[0],args[1] ,args[2]);
         compiler.prettyPrintFile();
         compiler.toHexFile();
-        Window window = new Window();
     }
 }
