@@ -25,6 +25,7 @@ public class ProgramPanel extends JPanel{
         table = new JTable(model);
 
         scroll = new JScrollPane(table,VERTICAL_SCROLLBAR_AS_NEEDED,HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        this.add(scroll);
     }
 
     public JScrollPane getProgPanel(){

@@ -1,8 +1,12 @@
 package gui;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
 public class Window extends JFrame {
 
@@ -10,7 +14,27 @@ public class Window extends JFrame {
 		super("Mips Simulator");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setSize(new Dimension(1024, 1024));
+		this.addPanels();
+		this.createMenubar();
 		this.completeWindow();
+	}
+	
+	private void addPanels() {
+		this.add(new ControllPanel(), BorderLayout.NORTH);
+		this.add(new ProgramPanel(), BorderLayout.CENTER);
+		this.add(new DataMemPanel(1024), BorderLayout.SOUTH);
+	}
+	
+	private void createMenubar() {
+		JMenuBar menubar = new JMenuBar();
+		JMenu fileMenu = new JMenu("File");
+		menubar.add(fileMenu);
+		
+		JMenuItem openItem = new JMenuItem("Open");
+		fileMenu.add(openItem);
+		
+		this.setJMenuBar(menubar);
+		
 	}
 	
 	/**
