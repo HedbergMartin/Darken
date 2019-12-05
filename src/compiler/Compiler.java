@@ -59,16 +59,20 @@ public class Compiler {
 				    	list.add(m.group(2));
 				    }
 				}
-				if( label != null ){
+				
+				if(label != null){
 					lableAddress.put(label,currentAddress);
-					if( list.isEmpty() ){
+					
+					// If only label on line, go to next line without incrementing address.
+					if(list.isEmpty()){
 						finishedCommands.add(new CustomTypeCommand(label));
+						continue;
 					}
 				}
 
 				if(!list.isEmpty()){
-					Command newCommand = getCommandType(line, list);
-					if( !finishedCommands.contains(newCommand)){
+					Command newCommand = getCommandType(line, list, currentAddress);
+					if(!finishedCommands.contains(newCommand)){
 						finishedCommands.add(newCommand);
 					}
 
@@ -100,7 +104,7 @@ public class Compiler {
 
 	}
 
-	private Command getCommandType(String line, ArrayList<String> list) {
+	private Command getCommandType(String line, ArrayList<String> list, int currentAddress) {
 		Command newCommand = null;
 		type comType = COMMAND_TYPES.get(list.get(0));
 		if( comType == null ){
@@ -127,7 +131,7 @@ public class Compiler {
                 	newCommand = new ITypeCommand(list.get(0), list.get(1), list.get(2), line);
                 }else{
 					try{
-						newCommand = new ITypeCommand(list.get(0), list.get(1), list.get(2), list.get(3), line);
+						newCommand = new ITypeCommand(list.get(0), list.get(1), list.get(2), list.get(3), (currentAddress >> 2), line);
 					} catch(IndexOutOfBoundsException e) {
 						line = line + "	Error: instruction call is not correct";
 						newCommand = new CustomTypeCommand(line);

@@ -1,11 +1,6 @@
 package compiler;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
-import static compiler.Utilities.checkBits;
-import static compiler.Utilities.getBinary;
-import static compiler.Utilities.getHex;
 
 public class ITypeCommand extends Command {
     private int op; // 6 bit
@@ -13,7 +8,7 @@ public class ITypeCommand extends Command {
     private int rt; // 5 bit
     private int addressOrImmediate = -1; // 16 bit
     private String address;
-    private String op_string;
+    private int row;
 
     //Är för sw och lw
     public ITypeCommand(String op, String rt, String target, String line) {
@@ -24,13 +19,13 @@ public class ITypeCommand extends Command {
         addressOrImmediate = getOffset(target);
     }
 
-    public ITypeCommand(String op, String rt, String rs, String address, String line) {
+    public ITypeCommand(String op, String rs, String rt, String address, int row, String line) {
         super(line);
-        op_string = op;
         this.op = opt_encoding.get(op);
         this.rs = getRegisterNumber(rs);
         this.rt = getRegisterNumber(rt);
         this.address = address;
+        this.row = row;	
 
         if(isInteger(address)){
             addressOrImmediate = Integer.parseInt(address);
@@ -50,7 +45,7 @@ public class ITypeCommand extends Command {
 
     @Override
     public void setMissingLabelAddress(int address) {
-        this.addressOrImmediate = (address >> 2);
+        this.addressOrImmediate = (address >> 2) - (this.row + 1);
     }
 
     @Override
@@ -61,8 +56,8 @@ public class ITypeCommand extends Command {
         result = result << 5;
         result += rt;
         result = result << 16;
-        result += addressOrImmediate;
-
+        result += (Short.MAX_VALUE & addressOrImmediate);
+        
         return String.format("%08X", result);
     }
 

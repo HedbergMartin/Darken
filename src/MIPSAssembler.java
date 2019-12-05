@@ -1,3 +1,4 @@
+import compiler.Command;
 import compiler.Compiler;
 
 public class MIPSAssembler {

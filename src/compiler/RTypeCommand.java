@@ -21,13 +21,14 @@ public class RTypeCommand extends Command {
         // set private ints
         super(line);
 
-        if(op.compareTo("sll") > 0){
+        if(op.equals("sll")){
             this.rs = 0;
-            this.rt = getRegisterNumber(rs);
+            this.rt = getRegisterNumber(rt);
             this.rd = getRegisterNumber(rd);
-            this.shamt = getRegisterNumber(rt);
+            this.shamt = Integer.parseInt(rs);
             this.funct = func_encoding.get(op);
-        } else if(op.compareTo("jr") > 0){
+            //System.out.println("RS: " + this.rs + " RT: " + this.rt + " RD: " + this.rd + " shamt: " + this.shamt);
+        } else if(op.equals("jr")){
             this.rs = getRegisterNumber(rd);
             this.rt = 0;
             this.rd = 0;
