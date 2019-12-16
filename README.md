@@ -12,7 +12,7 @@ To run the assembler one runs the following in the src/ directory:
 
 ```console
 foo@bar:~$ javac MIPSAssembler.java compiler/*.java
-foo@bar:~$ java <Input file> <Pretty print path> <Hex output path>
+foo@bar:~$ java MIPSAssembler <Input file> <Pretty print path> <Hex output path>
 ```
 
 #### Input file
