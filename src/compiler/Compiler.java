@@ -36,6 +36,7 @@ public class Compiler {
 	
 	// R-Command 
 	private void parseFile(File file) throws Exception {
+		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(file);
 		int currentAddress = 0;
 
@@ -67,7 +68,6 @@ public class Compiler {
 					
 					// If only label on line, go to next line without incrementing address.
 					if(list.isEmpty()){
-						System.out.println(Integer.toHexString(currentAddress));
 						finishedCommands.add(new CustomTypeCommand(label));
 						continue;
 					}
@@ -154,7 +154,6 @@ public class Compiler {
 		fileContent = fileContent + "\nSymbols \n";
 		for (String label : lableAddress.keySet()) {
 			String hexAddress = checkBits(8,getHex(checkBits(32,getBinary(lableAddress.get(label)))));
-			System.out.println(label + "  + " + Integer.toHexString(lableAddress.get(label)));
 			fileContent = fileContent + label + "	" +"0x"+ hexAddress + "\n";
 		}
 
