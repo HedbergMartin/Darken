@@ -107,38 +107,23 @@ public class Compiler {
 	private Command getCommandType(String line, ArrayList<String> list, int currentAddress) {
 		Command newCommand = null;
 		type comType = COMMAND_TYPES.get(list.get(0));
+		int row = (currentAddress >> 2);
+		
 		if( comType == null ){
 			line = line + "	Error: instruction not allowed";
 			finishedCommands.add(newCommand = new CustomTypeCommand(line));
 			return newCommand;
 		}
+		
 		switch (comType) {
             case R:
-                // Special jr-case
-                if(list.get(0).equals("jr")){
-                    newCommand = new RTypeCommand(list.get(0), list.get(1), "$zero", "$zero", line);
-                }else{
-                	try{
-						newCommand = new RTypeCommand(list.get(0), list.get(1), list.get(2), list.get(3), line);
-					} catch(IndexOutOfBoundsException e) {
-                		line = line + "	Error: instruction call is not correct";
-                		newCommand = new CustomTypeCommand(line);
-					}
-                }
-                break;
+            	newCommand = new RTypeCommand(list, line, row);
+            	break;
+            	
             case I:
-                if(list.get(0).equals("sw") || list.get(0).equals("lw")){
-                	newCommand = new ITypeCommand(list.get(0), list.get(1), list.get(2), line);
-                }else{
-					try{
-						newCommand = new ITypeCommand(list.get(0), list.get(1), list.get(2), list.get(3), (currentAddress >> 2), line);
-					} catch(IndexOutOfBoundsException e) {
-						line = line + "	Error: instruction call is not correct";
-						newCommand = new CustomTypeCommand(line);
-					}
-
-                }
+            	newCommand = new ITypeCommand(list, line, row);
                 break;
+                
             case J:
                 if(list.get(0).equals("nop")){
                     newCommand = new JTypeCommand(list.get(0), line);

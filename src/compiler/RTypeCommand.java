@@ -8,39 +8,42 @@ import static compiler.Utilities.getBinary;
 import static compiler.Utilities.getHex;
 
 public class RTypeCommand extends Command {
-    private int op = 0; // 6 bit
+    private int op; // 6 bit
     private int rs; // 5 bit
     private int rt; // 5 bit
     private int rd; // 5 bit
-    private int shamt = 0; // 5 bit
+    private int shamt; // 5 bit
     private int funct; // 6 bit
-    // private int row;
-    // private int address;         if commands should save which row and address it has.
-
-    public RTypeCommand(String op, String rd, String rt, String rs, String line) {
-        // set private ints
-        super(line);
-
-        if(op.equals("sll")){
+    
+    public RTypeCommand(ArrayList<String> args, String line, int row) {
+    	super(line, row);
+    	this.op = 0;
+    	
+    	switch (args.get(0).toLowerCase()) {
+		case "sll":
             this.rs = 0;
-            this.rt = getRegisterNumber(rt);
-            this.rd = getRegisterNumber(rd);
-            this.shamt = Integer.parseInt(rs);
-            this.funct = func_encoding.get(op);
-            //System.out.println("RS: " + this.rs + " RT: " + this.rt + " RD: " + this.rd + " shamt: " + this.shamt);
-        } else if(op.equals("jr")){
-            this.rs = getRegisterNumber(rd);
+            this.rt = getRegisterNumber(args.get(2));
+            this.rd = getRegisterNumber(args.get(1));
+            this.shamt = Integer.parseInt(args.get(3));
+            this.funct = func_encoding.get(args.get(0));
+			break;
+
+		case "jr":
+            this.rs = getRegisterNumber(args.get(1));
             this.rt = 0;
             this.rd = 0;
             this.shamt = 0;
-            this.funct = func_encoding.get(op);
-        } else {
-            this.rs = getRegisterNumber(rs);
-            this.rt = getRegisterNumber(rt);
-            this.rd = getRegisterNumber(rd);
+            this.funct = func_encoding.get(args.get(0));
+			break;
+			
+		default:
+            this.rs = getRegisterNumber(args.get(3));
+            this.rt = getRegisterNumber(args.get(2));
+            this.rd = getRegisterNumber(args.get(1));
             this.shamt = 0;
-            this.funct = func_encoding.get(op);
-        }
+            this.funct = func_encoding.get(args.get(0));
+			break;
+		}
     }
 
     @Override
