@@ -7,8 +7,7 @@ import java.util.regex.Pattern;
 
 public abstract class Command {
 	private int row;
-	private int address; // remove?
-	private short operation; // remove ?
+	private int operation;
 
 	private String originalLine;
 
@@ -16,21 +15,29 @@ public abstract class Command {
 		this.originalLine = line;
 		this.row = row;
 	}
-	
-	Command(String line) {
-		this.originalLine = line;
-		this.row = 0;
-	}
 
+    public boolean hasMissingLabelAddress() {
+        return false;
+    }
 
-	public abstract boolean hasMissingLabelAddress();
-	public abstract String getMissingLabelAddress();
-	public abstract void setMissingLabelAddress(int address);
+    public String getMissingLabelAddress() {
+        return null;
+    }
+
+    public void setMissingLabelAddress(int address) { }
 
 	public abstract String toHex();
 
 	public int getRow() {
 		return this.row;
+	}
+	
+	protected void setOpcode(int op) {
+		this.operation = op;
+	}
+	
+	public int getOpcode() {
+		return this.operation;
 	}
 	
 	/**
@@ -113,7 +120,7 @@ public abstract class Command {
 		return originalLine;
 	}
 
-	public void setLine(String line){
+	public void appendToLine(String line){
 		originalLine = originalLine + line;
 	}
 	

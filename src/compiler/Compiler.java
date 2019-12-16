@@ -29,11 +29,14 @@ public class Compiler {
 			parseFile(file);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+		} catch (Exception e) {
+			return;
 		}
 	}
 	
 	// R-Command 
-	private void parseFile(File file) throws FileNotFoundException {
+	private void parseFile(File file) throws Exception {
+		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(file);
 		int currentAddress = 0;
 
@@ -86,9 +89,9 @@ public class Compiler {
 							unfinishedRefs.add(newCommand);
 						}
 					}
-				}
 
-				currentAddress += 4;
+					currentAddress += 4;
+				}
 			}
 		}
 		// Go through unfninished commands and add missing label-adresses
@@ -96,7 +99,7 @@ public class Compiler {
 			Command currentUnfinishedCommand = unfinishedRefs.poll();
 			String missingLabelAddress = currentUnfinishedCommand.getMissingLabelAddress();
 			if( lableAddress.get(missingLabelAddress + ":") == null){
-				currentUnfinishedCommand.setLine("	Error: Missing label");
+				currentUnfinishedCommand.appendToLine("	Error: Missing label");
 			} else {
 				currentUnfinishedCommand.setMissingLabelAddress(lableAddress.get(missingLabelAddress + ":"));
 			}
@@ -104,7 +107,7 @@ public class Compiler {
 
 	}
 
-	private Command getCommandType(String line, ArrayList<String> list, int currentAddress) {
+	private Command getCommandType(String line, ArrayList<String> list, int currentAddress) throws Exception {
 		Command newCommand = null;
 		type comType = COMMAND_TYPES.get(list.get(0));
 		int row = (currentAddress >> 2);
@@ -112,7 +115,7 @@ public class Compiler {
 		if( comType == null ){
 			line = line + "	Error: instruction not allowed";
 			finishedCommands.add(newCommand = new CustomTypeCommand(line));
-			return newCommand;
+			throw new Exception("Invalid command at line: " + row);
 		}
 		
 		switch (comType) {
@@ -127,11 +130,10 @@ public class Compiler {
             case J:
                 newCommand = new JTypeCommand(list, line, row);
                 break;
-            default:
-                //Nops
-            	System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-                newCommand = new CustomTypeCommand(line);
-                break;
+                
+            case N:
+            	newCommand = new NopCommand(line, row);
+            	break;
         }
 		return newCommand;
 	}
@@ -139,16 +141,14 @@ public class Compiler {
 	public void prettyPrintFile(){
 		// Create pretty print file!
 		String fileContent = "";
-		int rowAddress = 0;
 
 		for (Command com : finishedCommands) {
 			if( com.toHex() == null ){
 				fileContent = fileContent + "						" + com.getOriginalLine() + "\n";
 			} else {
-				String hexAddress = checkBits(8,getHex(checkBits(32,getBinary(rowAddress))));
+				String hexAddress = checkBits(8,getHex(checkBits(32,getBinary(com.getRow()*4))));
 				fileContent = fileContent + "0x"+hexAddress + "	" + "0x"+com.toHex() +
 						"	" + com.getOriginalLine() + "\n";
-				rowAddress+=4;
 			}
 		}
 		fileContent = fileContent + "\nSymbols \n";
@@ -194,13 +194,13 @@ public class Compiler {
         COMMAND_TYPES.put("sll", type.R);//Speciell
         COMMAND_TYPES.put("j", type.J);
         COMMAND_TYPES.put("jr", type.R);//Speciell
-        COMMAND_TYPES.put("nop", type.J);//Speciell
+        COMMAND_TYPES.put("nop", type.N);//Nop
     }
 	
 	private enum type {
 		R,
 		I,
 		J,
-        C
+        N // Nop type
 	}
 }

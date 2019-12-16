@@ -1,6 +1,6 @@
 # Test program for assignment 1 - a MIPS Assembler
 
-label2:	nor $t1, $zero, $zero
+	nor $t1, $zero, $zero
 	sub $t1, $zero, $t1
 	add $t2, $t1, $t1
 	add $t3, $t2, $t1
@@ -18,4 +18,3 @@ label:	nop
 	sub $t4, $t3, $t3
 	beq $t4, $zero, label
 	nop
-	sll $s1, $t1, 14

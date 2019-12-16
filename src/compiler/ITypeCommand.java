@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ITypeCommand extends Command {
-    private int op; // 6 bit
     private int rs; // 5 bit
     private int rt; // 5 bit
     private int addressOrImmediate; // 16 bit
@@ -12,7 +11,7 @@ public class ITypeCommand extends Command {
 
     public ITypeCommand(ArrayList<String> args, String line, int row) {
     	super(line, row);
-    	this.op = opt_encoding.get(args.get(0));
+    	this.setOpcode(opt_encoding.get(args.get(0)));
     	
     	switch (args.get(0).toLowerCase()) {
 		case "beq":
@@ -53,7 +52,7 @@ public class ITypeCommand extends Command {
 
     @Override
     public String toHex() {
-    	int result = op;
+    	int result = this.getOpcode();
         result = result << 5;
         result += rs;
         result = result << 5;
