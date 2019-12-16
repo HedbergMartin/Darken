@@ -21,9 +21,9 @@ The input file should contain the valid assembly code to be assembled. Example:
 # This is an example
 label0:
 label1: addi  $t1, $zero, 1   # A comment
-		addi  $t2, $zero, 2
-		addi  $t3, $zero, 3
-		addi  $t4, $zero, -4
+	addi  $t2, $zero, 2
+	addi  $t3, $zero, 3		
+	addi  $t4, $zero, -4
 ```
 
 The commands which the assembler supports is: add, sub, and, or, nor, slt, lw, sw, beq, addi, sll, j, jr and nop.
