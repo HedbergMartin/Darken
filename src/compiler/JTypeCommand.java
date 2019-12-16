@@ -3,25 +3,13 @@ package compiler;
 import java.util.ArrayList;
 
 public class JTypeCommand extends Command {
-    private int op; // 6 bit
     private int targetAddress = -1; // 26 bit
-    // private int row;
-    // private int address;         if commands should save which row and address it has.
     private String address = null;
     
     public JTypeCommand(ArrayList<String> args, String line, int row) {
     	super(line, row);
-    	
-    	switch (args.get(0).toLowerCase()) {
-		case "nop":
-	        this.targetAddress = 0;
-	        this.op = 0;
-			break;
-		default:
-			this.op = 2;
-			this.address = args.get(1);
-			break;	
-    	}
+		this.setOpcode(2);
+		this.address = args.get(1);
     }
 
     @Override
@@ -47,7 +35,7 @@ public class JTypeCommand extends Command {
      */
     @Override
     public String toHex() {
-    	int result = op;
+    	int result = this.getOpcode();
     	result = result << 26;
     	result += targetAddress;
     	

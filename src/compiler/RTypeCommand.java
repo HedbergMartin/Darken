@@ -3,12 +3,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static compiler.Utilities.checkBits;
-import static compiler.Utilities.getBinary;
-import static compiler.Utilities.getHex;
-
 public class RTypeCommand extends Command {
-    private int op; // 6 bit
     private int rs; // 5 bit
     private int rt; // 5 bit
     private int rd; // 5 bit
@@ -17,7 +12,7 @@ public class RTypeCommand extends Command {
     
     public RTypeCommand(ArrayList<String> args, String line, int row) {
     	super(line, row);
-    	this.op = 0;
+    	this.setOpcode(0);;
     	
     	switch (args.get(0).toLowerCase()) {
 		case "sll":
@@ -37,28 +32,13 @@ public class RTypeCommand extends Command {
 			break;
 			
 		default:
-            this.rs = getRegisterNumber(args.get(3));
-            this.rt = getRegisterNumber(args.get(2));
+            this.rs = getRegisterNumber(args.get(2));
+            this.rt = getRegisterNumber(args.get(3));
             this.rd = getRegisterNumber(args.get(1));
             this.shamt = 0;
             this.funct = func_encoding.get(args.get(0));
 			break;
 		}
-    }
-
-    @Override
-    public boolean hasMissingLabelAddress() {
-        return false;
-    }
-
-    @Override
-    public String getMissingLabelAddress() {
-        return null;
-    }
-
-    @Override
-    public void setMissingLabelAddress(int address) {
-        return;
     }
 
     /**
@@ -68,7 +48,7 @@ public class RTypeCommand extends Command {
      */
     @Override
     public String toHex() {
-    	int result = op;
+    	int result = this.getOpcode();
     	result = result << 5;
     	result += rs;
     	result = result << 5;
