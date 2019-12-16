@@ -1,4 +1,5 @@
 package compiler;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -6,36 +7,37 @@ public class ITypeCommand extends Command {
     private int op; // 6 bit
     private int rs; // 5 bit
     private int rt; // 5 bit
-    private int addressOrImmediate = -1; // 16 bit
-    private String address;
-    private int row;
+    private int addressOrImmediate; // 16 bit
+    private String address = null;
 
-    //Är för sw och lw
-    public ITypeCommand(String op, String rt, String target, String line) {
-        super(line);
-        this.op = opt_encoding.get(op);
-        this.rs = getBase(target);
-        this.rt = getRegisterNumber(rt);
-        addressOrImmediate = getOffset(target);
-    }
-
-    public ITypeCommand(String op, String rs, String rt, String address, int row, String line) {
-        super(line);
-        this.op = opt_encoding.get(op);
-        this.rs = getRegisterNumber(rs);
-        this.rt = getRegisterNumber(rt);
-        this.address = address;
-        this.row = row;	
-
-        if(isInteger(address)){
-            addressOrImmediate = Integer.parseInt(address);
-        }
-
+    public ITypeCommand(ArrayList<String> args, String line, int row) {
+    	super(line, row);
+    	this.op = opt_encoding.get(args.get(0));
+    	
+    	switch (args.get(0).toLowerCase()) {
+		case "beq":
+	        this.rs = getRegisterNumber(args.get(1));
+	        this.rt = getRegisterNumber(args.get(2));
+	        this.address = args.get(3);
+			break;
+			
+		case "addi":
+	        this.rs = getRegisterNumber(args.get(2));
+	        this.rt = getRegisterNumber(args.get(1));
+	        addressOrImmediate = Integer.parseInt(args.get(3));
+			break;
+			
+		default: // SW and LW are defaults
+	        this.rs = getBase(args.get(2));
+	        this.rt = getRegisterNumber(args.get(1));
+	        addressOrImmediate = getOffset(args.get(2));
+			break;
+		}
     }
 
     @Override
     public boolean hasMissingLabelAddress() {
-        return addressOrImmediate == -1;
+        return address != null;
     }
 
     @Override
@@ -45,7 +47,8 @@ public class ITypeCommand extends Command {
 
     @Override
     public void setMissingLabelAddress(int address) {
-        this.addressOrImmediate = (address >> 2) - (this.row + 1);
+        this.addressOrImmediate = (address >> 2) - (this.getRow() + 1);
+        this.address = null;
     }
 
     @Override
@@ -56,7 +59,8 @@ public class ITypeCommand extends Command {
         result = result << 5;
         result += rt;
         result = result << 16;
-        result += (Short.MAX_VALUE & addressOrImmediate);
+        //65535 Is mask for 16first bits
+        result += (65535 & addressOrImmediate);
         
         return String.format("%08X", result);
     }
@@ -67,17 +71,5 @@ public class ITypeCommand extends Command {
         opt_encoding.put("sw", 43);
         opt_encoding.put("beq", 4);
         opt_encoding.put("addi", 8);
-    }
-
-    private static boolean isInteger(String s) {
-        try {
-            Integer.parseInt(s);
-        } catch(NumberFormatException e) {
-            return false;
-        } catch(NullPointerException e) {
-            return false;
-        }
-        // only got here if we didn't return false
-        return true;
     }
 }

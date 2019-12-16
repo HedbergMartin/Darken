@@ -1,8 +1,6 @@
 package compiler;
 
-import static compiler.Utilities.checkBits;
-import static compiler.Utilities.getBinary;
-import static compiler.Utilities.getHex;
+import java.util.ArrayList;
 
 public class JTypeCommand extends Command {
     private int op; // 6 bit
@@ -10,25 +8,25 @@ public class JTypeCommand extends Command {
     // private int row;
     // private int address;         if commands should save which row and address it has.
     private String address = null;
-
-    public JTypeCommand(String op, String address, String line) {
-        super(line);
-        this.address = address;
-        this.op = 2;
-
+    
+    public JTypeCommand(ArrayList<String> args, String line, int row) {
+    	super(line, row);
+    	
+    	switch (args.get(0).toLowerCase()) {
+		case "nop":
+	        this.targetAddress = 0;
+	        this.op = 0;
+			break;
+		default:
+			this.op = 2;
+			this.address = args.get(1);
+			break;	
+    	}
     }
-
-    public JTypeCommand(String op, String line){
-        super(line);
-        this.targetAddress = 0;
-        this.op = 0;
-
-    }
-
 
     @Override
     public boolean hasMissingLabelAddress() {
-        return targetAddress == -1;
+        return address != null;
     }
 
     @Override
@@ -39,6 +37,7 @@ public class JTypeCommand extends Command {
     @Override
     public void setMissingLabelAddress(int address) {
         this.targetAddress = (address >> 2);
+        this.address = null;
     }
 
     /**
