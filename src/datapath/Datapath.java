@@ -10,4 +10,24 @@ public class Datapath {
         // Koppla ihop komponenter
 
     }
+
+    public oneStep(){
+
+        /*
+        InstructionMemory.readAdress = PC.current;
+
+        RegisterFile.Reg1 = InstructionMemory.??
+        RegisterFile.Reg2 = InstructionMemory.??
+
+        mux.0 =
+
+
+        RegisterFile.writeReg = InstructionMemory.??
+        RegisterFile.writeDat = InstructionMemory.??5
+        */
+
+
+
+    }
+
 }
