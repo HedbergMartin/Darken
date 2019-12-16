@@ -125,20 +125,11 @@ public class Compiler {
                 break;
                 
             case J:
-                if(list.get(0).equals("nop")){
-                    newCommand = new JTypeCommand(list.get(0), line);
-                } else {
-					try{
-						newCommand = new JTypeCommand(list.get(0), list.get(1), line);
-					} catch(IndexOutOfBoundsException e) {
-						line = line + "	Error: instruction call is not correct";
-						newCommand = new CustomTypeCommand(line);
-					}
-
-                }
+                newCommand = new JTypeCommand(list, line, row);
                 break;
             default:
                 //Nops
+            	System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
                 newCommand = new CustomTypeCommand(line);
                 break;
         }
@@ -178,7 +169,7 @@ public class Compiler {
 		String fileContent = "";
         for (Command com: finishedCommands) {
         	if(com.toHex() != null){
-				fileContent = fileContent + com.toHex() + "\n";
+				fileContent = fileContent + "0x" + com.toHex() + "\n";
 			}
         }
 		try {
@@ -203,7 +194,7 @@ public class Compiler {
         COMMAND_TYPES.put("sll", type.R);//Speciell
         COMMAND_TYPES.put("j", type.J);
         COMMAND_TYPES.put("jr", type.R);//Speciell
-        COMMAND_TYPES.put("nop", type.J);
+        COMMAND_TYPES.put("nop", type.J);//Speciell
     }
 	
 	private enum type {
