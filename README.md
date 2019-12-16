@@ -8,10 +8,11 @@
 To run the assembler you need a input file, path name to hex output text file and path name to pretty print text file.
 
 #### Running assembler
-To run the assembler one runs the following:
+To run the assembler one runs the following in the src/ directory:
 
 ```console
-foo@bar:~$ java  -jar Darken.jar <Input file> <Pretty print path> <Hex output path>
+foo@bar:~$ javac MIPSAssembler.java compiler/*.java
+foo@bar:~$ java <Input file> <Pretty print path> <Hex output path>
 ```
 
 #### Input file
