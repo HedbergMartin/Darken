@@ -8,5 +8,7 @@ public class ShiftLeftTwo {
 
     public int getOutput(){
 
+
+        return 0;
     }
 }

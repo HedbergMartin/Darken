@@ -11,7 +11,7 @@ public class Datapath {
 
     }
 
-    public oneStep(){
+    public void oneStep(){
 
         /*
         InstructionMemory.readAdress = PC.current;

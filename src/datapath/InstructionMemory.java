@@ -15,6 +15,8 @@ public class InstructionMemory {
 
     public int returnBits(int start, int end){
 
+
+        return 0;
     }
 
 }

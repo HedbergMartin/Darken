@@ -11,10 +11,13 @@ public class RegisterFile {
 
     public int readData1(){
 
+        return 0;
     }
 
     public int readData2(){
 
+
+        return 0;
     }
 
 }
