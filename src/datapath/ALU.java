@@ -2,7 +2,7 @@ package datapath;
 
 public class ALU {
 
-    int ALUresult;
+    private int ALUresult;
 
     public void perform(int leftOperand, int rightOperand, int operation){
 

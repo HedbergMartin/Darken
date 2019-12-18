@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class DataMemory {
 
-    int readData;
+    private int readData;
 
     private Map<Integer, Integer> memoryMap = new HashMap(); // Address -> data
 

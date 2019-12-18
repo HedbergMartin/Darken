@@ -2,7 +2,6 @@ package datapath;
 
 public class SignExtend {
 
-
     private int output;
 
     public void perform(int input){

@@ -2,7 +2,7 @@ package datapath;
 
 public class PC {
 
-    int address;
+    private int address;
 
     public void perform(int number){
         address = number;

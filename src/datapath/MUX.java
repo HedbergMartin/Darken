@@ -2,7 +2,7 @@ package datapath;
 
 public class MUX {
 
-    int result;
+    private int result;
 
     public void perform(int first, int second, boolean control){
 
