@@ -1,35 +1,57 @@
 package gui;
 
+import java.awt.BorderLayout;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
+import compiler.Command;
+import compiler.Compiler;
 
 public class RegisterPanel extends JPanel {
-    private JTable table;
-    private DefaultTableModel model;
+	
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	private JTable table;
 
     public RegisterPanel () {
-        createPanel();
-    }
-
-    private void createPanel() {
         createTable();
-        this.add(table);
     }
 
     private void createTable() {
-        this.model = new DefaultTableModel();
-        this.model.addColumn("Register");
-        this.model.addColumn("Value");
-        this.table = new JTable(this.model);
+    	this.setLayout(new BorderLayout());
+    	String[] colnames = {"Register", "Value"};
+        TableModel model = new DefaultTableModel(colnames, 31);
+        this.table = new JTable(model);
+
+		JScrollPane scroll = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		this.add(scroll);
+		
+		this.setTable("0", 0);
     }
 
-    public void setTable(String register, int values) {
-        for(int i = 0; i < 32; i++) {
+    // Dont try to read this :)))
+    private void setTable(String register, int values) {
+    	Iterator<Entry<String, Integer>> it = Command.REG_NUMBERS.entrySet().iterator();
+        while (it.hasNext()) {
+            Entry<String, Integer> pair = (Entry<String, Integer>)it.next();
+            if (pair.getValue() != 0) {
+                this.table.getModel().setValueAt(pair.getKey(), pair.getValue()-1, 0);
+            }
+            it.remove(); // avoids a ConcurrentModificationException
         }
     }
 
-    public void updateTable(String data, int row, int column) {
-        this.model.setValueAt(data, row, column);
+    public void updateTable(String data, int register) {
+        this.table.getModel().setValueAt(data, register, 1);
     }
 
 }

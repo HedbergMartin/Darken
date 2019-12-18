@@ -22,6 +22,7 @@ public class Window extends JFrame {
 	private void addPanels() {
 		this.add(new ControllPanel(), BorderLayout.NORTH);
 		this.add(new ProgramPanel(), BorderLayout.CENTER);
+		this.add(new RegisterPanel(), BorderLayout.WEST);
 		this.add(new DataMemPanel(1024), BorderLayout.SOUTH);
 	}
 	
