@@ -24,7 +24,7 @@ public class DataMemPanel extends JPanel {
 		this.setLayout(new BorderLayout());
 		
 		int rows = (memorySize-1) / 16 + 1;
-		String colnames[] = new String[17];
+		String[] colnames = new String[17];
 		colnames[0] = "Address";
 		for (int i = 0; i < 16; i++) {
 			colnames[i+1] = Integer.toHexString(i);
