@@ -2,13 +2,13 @@ package datapath;
 
 public class ShiftLeftTwo {
 
-    public void perform(int input){
+    private int output;
 
+    public void perform(int input){
+        output = input << 2;
     }
 
     public int getOutput(){
-
-
-        return 0;
+        return output;
     }
 }

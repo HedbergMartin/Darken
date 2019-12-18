@@ -4,9 +4,9 @@ public class MUX {
 
     int result;
 
-    public void perform(int first, int second, int control){
+    public void perform(int first, int second, boolean control){
 
-        if(control == 0){
+        if(control){
             result = 0;
         }else{
             result = 1;
