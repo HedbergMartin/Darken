@@ -59,6 +59,21 @@ public class ALU {
                 }
 
                 break;
+            case 6:
+                //SLL
+                ALUresult = leftOperand << rightOperand;
+                break;
+            case 7:
+                //SRL
+                ALUresult = leftOperand >> rightOperand;
+                break;
+            case 8:
+                //SRA
+                //TODO
+                break;
+            case 9:
+                //JR
+                //TODO
             default:
                 System.out.println("ALU got invalid operation: " + operation);
         }

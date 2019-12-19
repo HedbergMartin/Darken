@@ -26,7 +26,7 @@ public class ALUControl {
                         ALUOpOut = 2;
                         break;
                     case 34: // subtract
-                        ALUOpOut = 6;
+                        ALUOpOut = 3;
                         break;
                     case 36: // AND
                         ALUOpOut = 0;
@@ -35,7 +35,22 @@ public class ALUControl {
                         ALUOpOut = 1;
                         break;
                     case 42: // set on less than
+                        ALUOpOut = 4;
+                        break;
+                    case 39: //Nor
+                        ALUOpOut = 5;
+                        break;
+                    case 0: //Sll
+                        ALUOpOut = 6;
+                        break;
+                    case 2: //srl
                         ALUOpOut = 7;
+                        break;
+                    case 3: //sra
+                        ALUOpOut = 8;
+                        break;
+                    case 8: //jr
+                        ALUOpOut = 9;
                         break;
                     default:
                         System.out.println("ALU got invalid instruction: " + instruction);

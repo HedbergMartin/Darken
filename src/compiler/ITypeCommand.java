@@ -25,6 +25,12 @@ public class ITypeCommand extends Command {
 	        this.rt = getRegisterNumber(args.get(1));
 	        addressOrImmediate = Integer.parseInt(args.get(3));
 			break;
+
+        case "ori":
+            this.rs = getRegisterNumber(args.get(2));
+            this.rt = getRegisterNumber(args.get(1));
+            addressOrImmediate = Integer.parseInt(args.get(3));
+            break;
 			
 		default: // SW and LW are defaults
 	        this.rs = getBase(args.get(2));
@@ -70,5 +76,6 @@ public class ITypeCommand extends Command {
         opt_encoding.put("sw", 43);
         opt_encoding.put("beq", 4);
         opt_encoding.put("addi", 8);
+        opt_encoding.put("ori",13);
     }
 }

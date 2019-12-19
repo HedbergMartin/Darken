@@ -12,7 +12,7 @@ public class RTypeCommand extends Command {
     
     public RTypeCommand(ArrayList<String> args, String line, int row) {
     	super(line, row);
-    	this.setOpcode(0);;
+    	this.setOpcode(0);
     	
     	switch (args.get(0).toLowerCase()) {
 		case "sll":
@@ -22,6 +22,22 @@ public class RTypeCommand extends Command {
             this.shamt = Integer.parseInt(args.get(3));
             this.funct = func_encoding.get(args.get(0));
 			break;
+
+        case "srl":
+            this.rs = 0;
+            this.rt = getRegisterNumber(args.get(2));
+            this.rd = getRegisterNumber(args.get(1));
+            this.shamt = Integer.parseInt(args.get(3));
+            this.funct = func_encoding.get(args.get(0));
+            break;
+
+        case "sra":
+            this.rs = 0;
+            this.rt = getRegisterNumber(args.get(2));
+            this.rd = getRegisterNumber(args.get(1));
+            this.shamt = Integer.parseInt(args.get(3));
+            this.funct = func_encoding.get(args.get(0));
+            break;
 
 		case "jr":
             this.rs = getRegisterNumber(args.get(1));
@@ -72,6 +88,8 @@ public class RTypeCommand extends Command {
         func_encoding.put("nor", 39);
         func_encoding.put("slt", 42);
         func_encoding.put("sll", 0);//Speciell
+        func_encoding.put("srl",2); //Spec
+        func_encoding.put("sra",3); //Spec
         func_encoding.put("jr", 8);//Speciell
     }
 }

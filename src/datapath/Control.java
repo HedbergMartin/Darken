@@ -6,6 +6,7 @@ import java.util.Map;
 public class Control {
 
 	private boolean RegDst = false;
+	private boolean Jump = false;
 	private boolean ALUSrc = false;
 	private boolean MemtoReg = false;
 	private boolean RegWrite = false;
@@ -18,46 +19,85 @@ public class Control {
 
     public void perform(int instruction) {
     	switch (instruction) {
-		case 0:
-			RegDst = true;
-			ALUSrc = false;
-			MemtoReg = false;
-			RegWrite = true;
-			MemRead = false;
-			MemWrite = false;
-			Branch = false;
-			ALUOp1 = true;
-			ALUOP0 = false;
-			break;
-		case 4: //Beq
-			ALUSrc = false;
-			RegWrite = false;
-			MemRead = false;
-			MemWrite = false;
-			Branch = true;
-			ALUOp1 = false;
-			ALUOP0 = true;
-			break;
-		case 35: //LW
-			RegDst = false;
-			ALUSrc = true;
-			MemtoReg = true;
-			RegWrite = true;
-			MemRead = true;
-			MemWrite = false;
-			Branch = false;
-			ALUOp1 = false;
-			ALUOP0 = false;
-			break;
-		case 43: //SW
-			ALUSrc = true;
-			RegWrite = false;
-			MemRead = false;
-			MemWrite = true;
-			Branch = false;
-			ALUOp1 = false;
-			ALUOP0 = false;
-			break;
+			case 0:
+				RegDst = true;
+				Jump = false;
+				ALUSrc = false;
+				MemtoReg = false;
+				RegWrite = true;
+				MemRead = false;
+				MemWrite = false;
+				Branch = false;
+				ALUOp1 = true;
+				ALUOP0 = false;
+				break;
+			case 2: //Jump
+				RegDst = false;
+				Jump = true;
+				ALUSrc = false;
+				MemtoReg = false;
+				RegWrite = false;
+				MemRead = false;
+				MemWrite = false;
+				Branch = false;
+				ALUOp1 = false;
+				ALUOP0 = false;
+			case 4: //Beq
+				Jump = false;
+				ALUSrc = false;
+				RegWrite = false;
+				MemRead = false;
+				MemWrite = false;
+				Branch = true;
+				ALUOp1 = false;
+				ALUOP0 = true;
+				break;
+			case 8: //Addi
+				RegDst = false;
+				Jump = false;
+				ALUSrc = true;
+				MemtoReg = false;
+				RegWrite = true;
+				MemRead = false;
+				MemWrite = false;
+				Branch = false;
+				ALUOp1 = true;
+				ALUOP0 = false;
+				break;
+			case 13: //Ori
+				RegDst = false;
+				Jump = false;
+				ALUSrc = true;
+				MemtoReg = false;
+				RegWrite = true;
+				MemRead = false;
+				MemWrite = false;
+				Branch = false;
+				ALUOp1 = true;
+				ALUOP0 = false;
+				break;
+			case 35: //LW
+				RegDst = false;
+				Jump = false;
+				ALUSrc = true;
+				MemtoReg = true;
+				RegWrite = true;
+				MemRead = true;
+				MemWrite = false;
+				Branch = false;
+				ALUOp1 = false;
+				ALUOP0 = false;
+				break;
+			case 43: //SW
+				ALUSrc = true;
+				Jump = false;
+				RegWrite = false;
+				MemRead = false;
+				MemWrite = true;
+				Branch = false;
+				ALUOp1 = false;
+				ALUOP0 = false;
+				break;
 		}
     }
 
