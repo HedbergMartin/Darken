@@ -11,7 +11,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import compiler.Command;
-import compiler.Compiler;
+import compiler.MipsCompiler;
 
 public class RegisterPanel extends JPanel {
 	

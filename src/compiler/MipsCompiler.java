@@ -4,11 +4,13 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import program.MIPSsimulator;
+
 import static compiler.Utilities.checkBits;
 import static compiler.Utilities.getBinary;
 import static compiler.Utilities.getHex;
 
-public class Compiler {
+public class MipsCompiler {
 	
 	private Map<String, Integer> lableAddress = new HashMap<String, Integer>();
 	//Todo update to I-Command
@@ -21,17 +23,21 @@ public class Compiler {
 	 * 
 	 * Input: File
 	 */
-	public Compiler(String inputFile, String prettyPrint, String hexFile) {
-		File file = new File(inputFile);
+	public MipsCompiler(File inputFile, String prettyPrint, String hexFile) {
 		this.prettyPrint = prettyPrint;
 		this.hexFile = hexFile;
 		try {
-			parseFile(file);
+			parseFile(inputFile);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
+			System.out.println("NFuck");
 			return;
 		}
+	}
+	
+	public MipsCompiler(String inputFile, String prettyPrint, String hexFile) {
+		this(new File(inputFile), prettyPrint, hexFile);
 	}
 	
 	// R-Command 
@@ -163,6 +169,10 @@ public class Compiler {
 			writer.close();
 		} catch (IOException e) {}
 
+	}
+	
+	public Queue<Command> getCommands() {
+		return finishedCommands;
 	}
 	
 	public void toHexFile() {

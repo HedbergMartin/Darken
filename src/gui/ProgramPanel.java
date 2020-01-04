@@ -33,7 +33,7 @@ public class ProgramPanel extends JPanel{
     }
 
     /**
-     * Set's table values att given row.
+     * Set's table values at given row.
      * @param command String array with info
      */
     public void setRowData(String[] command){

@@ -1,5 +1,7 @@
 package datapath;
 
+import javax.swing.text.AbstractDocument.BranchElement;
+
 // (Gränsyta mot CONTROLLERN till GUI ish)
 
 public class Datapath {
@@ -85,39 +87,19 @@ public class Datapath {
 
 
 
-        int lastMux = MUX.perform(dataMemory.getReadData(),ALUres,control.isMemtoReg());
+        int lastMux = MUX.perform(ALUres, dataMemory.getReadData(),control.isMemtoReg());
         registerFile.perform(read1,read2,writeReg,lastMux,control.isRegWrite());
+        
+        int jumpAddress = ShiftLeftTwo.perform(instructionMemory.returnBits(25, 0)) + (nextAddress << 28);
+        
+        int aluResult = ALU.performAdd(nextAddress, ShiftLeftTwo.perform(instructionMemory.returnBits(15, 0)));
 
+        int muxResult1 = MUX.perform(nextAddress, aluResult, control.isBranch() && ALUres == 0);
+        
+        int muxResult2 = MUX.perform(muxResult1, jumpAddress, control.isJump());
+        
+        pc.perform(muxResult2);
     }
-
-    private  void datapathStage_IF(){
-
-
-    }
-
-    private void datapathStage_ID(){
-
-
-    }
-
-    private void datapathStage_EX(){
-
-
-    }
-
-    private void datapathStage_MEM(){
-
-
-    }
-
-    private void datapathStage_WB(){
-
-
-    }
-
-
-
-
 
     public static void main(String[] args){
 

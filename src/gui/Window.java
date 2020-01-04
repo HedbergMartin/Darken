@@ -2,13 +2,20 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import listeners.OpenFileActionListener;
+
 public class Window extends JFrame {
+	
+	private RegisterPanel regPanel;
+	private ProgramPanel progPanel;
+	private JMenuItem openItem;
 
 	public Window() {
 		super("Mips Simulator");
@@ -21,8 +28,10 @@ public class Window extends JFrame {
 	
 	private void addPanels() {
 		this.add(new ControllPanel(), BorderLayout.NORTH);
-		this.add(new ProgramPanel(), BorderLayout.CENTER);
-		this.add(new RegisterPanel(), BorderLayout.WEST);
+		this.progPanel = new ProgramPanel();
+		this.add(this.progPanel, BorderLayout.CENTER);
+		this.regPanel = new RegisterPanel();
+		this.add(this.regPanel, BorderLayout.WEST);
 		this.add(new DataMemPanel(1024), BorderLayout.SOUTH);
 	}
 	
@@ -31,11 +40,15 @@ public class Window extends JFrame {
 		JMenu fileMenu = new JMenu("File");
 		menubar.add(fileMenu);
 		
-		JMenuItem openItem = new JMenuItem("Open");
+		this.openItem = new JMenuItem("Open");
 		fileMenu.add(openItem);
 		
 		this.setJMenuBar(menubar);
 		
+	}
+	
+	public void addOpenListener(ActionListener listener) {
+		openItem.addActionListener(listener);
 	}
 	
 	/**
@@ -46,5 +59,14 @@ public class Window extends JFrame {
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		this.setVisible(true);
+	}
+	
+	public void writeToRegister(int register, int value) {
+		this.regPanel.updateTable(Integer.toString(value), register);
+	}
+
+	public void addProgramLine(int address, String string) {
+		this.progPanel.setRowData(new String[] {Integer.toString(address), string});
+		
 	}
 }

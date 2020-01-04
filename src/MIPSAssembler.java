@@ -1,5 +1,5 @@
 import compiler.Command;
-import compiler.Compiler;
+import compiler.MipsCompiler;
 
 public class MIPSAssembler {
 
@@ -7,7 +7,7 @@ public class MIPSAssembler {
         if (args.length != 3){
             System.exit(-1);
         }
-        Compiler compiler = new Compiler(args[0],args[1] ,args[2]);
+        MipsCompiler compiler = new MipsCompiler(args[0],args[1] ,args[2]);
         compiler.prettyPrintFile();
         compiler.toHexFile();
     }
