@@ -5,8 +5,8 @@ import java.util.Map;
 
 public class RegisterFile {
 
-    private int readData1;
-    private int readData2;
+    private Integer readData1 = 0;
+    private Integer readData2 = 0;
 
 
     private Map<Integer, Integer> registers = new HashMap();
@@ -15,6 +15,8 @@ public class RegisterFile {
     public void perform(int readReg1, int readReg2, int writeReg, int writeData, boolean regWrite){
 
         if(regWrite){
+
+            System.out.println("Writing " + writeData +" to  " + writeReg );
             registers.put(writeReg,writeData);
         }
 
@@ -24,17 +26,27 @@ public class RegisterFile {
     }
 
     public int readData1(){
+
+        if(readData1 == null){
+            readData1 = 0;
+        }
+
         return readData1;
     }
 
     public int readData2(){
+
+        if(readData2 == null){
+            readData2 = 0;
+        }
+
         return readData2;
     }
 
 
     // To be used by GUI to display register content
-    public int getRegister(int address){
-        return registers.get(address);
+    public Map<Integer, Integer> getRegisterMap(){
+        return registers;
     }
 
 }
