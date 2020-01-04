@@ -4,61 +4,53 @@ public class ALUControl {
 
     private int ALUOpOut;
 
-    public void perform(int instruction, int ALUOpIn){
+    public void perform(int instruction, boolean ALUOp0, boolean ALUOp1){
 
         // Page 260 in textbook
-        switch(ALUOpIn) {
-            case 0: // LW/SW
+        if (!ALUOp0 && !ALUOp1) {
 
-                if(instruction == 43 || instruction == 35){ // lw/sw instruction opcode
+            ALUOpOut = 2;
+
+        } else if (ALUOp0) {
+
+            ALUOpOut = 6;
+
+        }else {
+            switch(instruction) { // R-type funct field
+                case 32: // add
                     ALUOpOut = 2;
-                }
+                    break;
+                case 34: // subtract
+                    ALUOpOut = 3;
+                    break;
+                case 36: // AND
+                    ALUOpOut = 0;
+                    break;
+                case 37: // or
+                    ALUOpOut = 1;
+                    break;
+                case 42: // set on less than
+                    ALUOpOut = 4;
+                    break;
+                case 39: //Nor
+                    ALUOpOut = 5;
+                    break;
+                case 0: //Sll
+                    ALUOpOut = 6;
+                    break;
+                case 2: //srl
+                    ALUOpOut = 7;
+                    break;
+                case 3: //sra
+                    ALUOpOut = 8;
+                    break;
+                case 8: //jr
+                    ALUOpOut = 9;
+                    break;
+                default:
+                    System.out.println("ALU got invalid instruction: " + instruction);
+            }
 
-                break;
-            case 1: // Branch equal
-                ALUOpOut = 6;
-
-                break;
-            case 2:
-
-                switch(instruction) { // R-type funct field
-                    case 32: // add
-                        ALUOpOut = 2;
-                        break;
-                    case 34: // subtract
-                        ALUOpOut = 3;
-                        break;
-                    case 36: // AND
-                        ALUOpOut = 0;
-                        break;
-                    case 37: // or
-                        ALUOpOut = 1;
-                        break;
-                    case 42: // set on less than
-                        ALUOpOut = 4;
-                        break;
-                    case 39: //Nor
-                        ALUOpOut = 5;
-                        break;
-                    case 0: //Sll
-                        ALUOpOut = 6;
-                        break;
-                    case 2: //srl
-                        ALUOpOut = 7;
-                        break;
-                    case 3: //sra
-                        ALUOpOut = 8;
-                        break;
-                    case 8: //jr
-                        ALUOpOut = 9;
-                        break;
-                    default:
-                        System.out.println("ALU got invalid instruction: " + instruction);
-                }
-
-                break;
-            default:
-                System.out.println("ALU got invalid ALUOpIn: " + ALUOpIn);
         }
 
     }

@@ -2,9 +2,13 @@ package datapath;
 
 public class ALU {
 
-    private int ALUresult;
+    public static int performAdd(int leftOperand, int rightOperan){
+        return perform(leftOperand,rightOperan,2);
+    }
 
-    public void perform(int leftOperand, int rightOperand, int operation){
+    public static int perform(int leftOperand, int rightOperand, int operation){
+
+        int ALUresult = 0;
 
         switch(operation) {
             case 0:
@@ -78,14 +82,7 @@ public class ALU {
                 System.out.println("ALU got invalid operation: " + operation);
         }
 
-
-    }
-
-    public int getALUresult(){
         return ALUresult;
     }
 
-    public int getZero(){
-        return 0;
-    }
 }

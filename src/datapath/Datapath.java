@@ -4,62 +4,120 @@ package datapath;
 
 public class Datapath {
 
+    // IF - section
     PC pc;
-    ALU addAlu1;
+    InstructionMemory instructionMemory;
 
+    // ID - section
+    Control control;
+    RegisterFile registerFile;
+    ALUControl aluControl;
+
+    // EX - section
+    // Note we have a flying AND here!
+
+    // MEM - section
+    DataMemory dataMemory;
+
+    // WB - section
 
     public Datapath() {
 
+        // IF - section
         pc = new PC();
-        addAlu1 = new ALU();
+        instructionMemory = new InstructionMemory();
 
-        // Skapa alla komponenter
-        // Koppla ihop komponenter
+        // ID - section
+        control = new Control();
+        registerFile = new RegisterFile();
+        aluControl = new ALUControl();
+
+        // EX - section
+        // Note we have a flying AND here!
+
+        // MEM - section
+        dataMemory = new DataMemory();
+
+        // WB - section
 
     }
 
     public void oneStep(){
 
 
-        pc.perform(0);
-
-        int pcRes = pc.getAddress();
-
-        System.out.println("pcRes: " + pcRes);
-
-        addAlu1.perform(pcRes,4,2);
-
-        System.out.println("ALUres: " + addAlu1.getALUresult());
+        // IF ----
+        int currentInstuctionAddress = pc.getAddress();
+        instructionMemory.perform(currentInstuctionAddress);
 
 
-        pc.perform(addAlu1.getALUresult());
+        int nextAddress = ALU.performAdd(currentInstuctionAddress,4); // Used as next address if no jump (+4)
 
-        addAlu1.perform(pc.getAddress(),4,2);
-
-        System.out.println("ALUres: " + addAlu1.getALUresult());
-
+        control.perform(instructionMemory.returnBits(31,26));
+        aluControl.perform(instructionMemory.returnBits(5,0),control.isALUOP0(),control.isALUOp1());
 
 
+        // ID ---
+        // Register file ----
+        boolean regWrite = control.isRegWrite();
+        int read1 = instructionMemory.returnBits(25,21);
+        int read2 = instructionMemory.returnBits(20,16);
+        int writeReg = MUX.perform(read2,instructionMemory.returnBits(15,11),control.isRegDst());
+        int writeData = 0; // Nothing in IF-phase
+
+        registerFile.perform(read1,read2,writeReg,writeData,regWrite);
+        // Register file ----
+
+
+
+        // Data memory ------
+
+
+        int ALUres = ALU.perform(registerFile.readData1(),
+                MUX.perform(registerFile.readData2(),instructionMemory.returnBits(15,0),control.isALUSrc()),
+                aluControl.getALUOp());
+        int address = ALUres;
+
+        dataMemory.perform(address,registerFile.readData2(),control.isMemWrite(),control.isMemRead());
+
+        // Data memory ------
 
 
 
 
-        /*
-        InstructionMemory.readAdress = PC.current;
 
-        RegisterFile.Reg1 = InstructionMemory.??
-        RegisterFile.Reg2 = InstructionMemory.??
+        int lastMux = MUX.perform(dataMemory.getReadData(),ALUres,control.isMemtoReg());
+        registerFile.perform(read1,read2,writeReg,lastMux,control.isRegWrite());
 
-        mux.0 =
+    }
 
-
-        RegisterFile.writeReg = InstructionMemory.??
-        RegisterFile.writeDat = InstructionMemory.??5
-        */
-
+    private  void datapathStage_IF(){
 
 
     }
+
+    private void datapathStage_ID(){
+
+
+    }
+
+    private void datapathStage_EX(){
+
+
+    }
+
+    private void datapathStage_MEM(){
+
+
+    }
+
+    private void datapathStage_WB(){
+
+
+    }
+
+
+
+
 
     public static void main(String[] args){
 
