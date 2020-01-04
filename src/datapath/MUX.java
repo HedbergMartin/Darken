@@ -7,9 +7,9 @@ public class MUX {
     public void perform(int first, int second, boolean control){
 
         if(control){
-            result = 0;
+            result = first;
         }else{
-            result = 1;
+            result = second;
         }
     }
 
