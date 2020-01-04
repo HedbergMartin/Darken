@@ -4,8 +4,6 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import program.MIPSsimulator;
-
 import static compiler.Utilities.checkBits;
 import static compiler.Utilities.getBinary;
 import static compiler.Utilities.getHex;

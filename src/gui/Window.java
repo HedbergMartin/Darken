@@ -9,8 +9,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-import listeners.OpenFileActionListener;
-
 public class Window extends JFrame {
 	
 	private RegisterPanel regPanel;

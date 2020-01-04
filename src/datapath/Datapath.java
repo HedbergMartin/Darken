@@ -1,7 +1,4 @@
 package datapath;
-
-import javax.swing.text.AbstractDocument.BranchElement;
-
 // (Gränsyta mot CONTROLLERN till GUI ish)
 
 public class Datapath {

@@ -2,16 +2,13 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import compiler.Command;
-import compiler.MipsCompiler;
 
 public class RegisterPanel extends JPanel {
 	

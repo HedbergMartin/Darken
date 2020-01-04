@@ -13,10 +13,12 @@ public class ControllPanel extends JPanel {
 	
 	private JButton runButton;
 	private JButton stepButton;
+	private JButton resetButton;
 
 	public ControllPanel() {
 		this.runButton = createButton("Run");
 		this.stepButton = createButton("Step");
+		this.resetButton = createButton("Reset");
 	}
 	
 	private JButton createButton(String title) {

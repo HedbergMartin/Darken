@@ -7,8 +7,6 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
-import sun.java2d.pipe.OutlineTextRenderer;
-
 public class DataMemPanel extends JPanel {
 
 	/**
