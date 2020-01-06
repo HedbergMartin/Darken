@@ -48,7 +48,7 @@ public class Datapath {
     }
 
     // To be displayed in GUI
-    public Map<Integer, Integer> getRegisterDataMap(){
+    public Map<Short, Short> getRegisterDataMap(){
         return registerFile.getRegisterMap();
     }
 
@@ -86,21 +86,18 @@ public class Datapath {
 
         // Data memory ------
 
-
         int ALUres = ALU.perform(registerFile.readData1(),
                 MUX.perform(registerFile.readData2(),instructionMemory.returnBits(0,15),control.isALUSrc()),
                 aluControl.getALUOp());
+
         int address = ALUres;
 
         dataMemory.perform(address,registerFile.readData2(),control.isMemWrite(),control.isMemRead());
 
         // Data memory ------
 
-
-
-
-
         int lastMux = MUX.perform(ALUres, dataMemory.getReadData(),control.isMemtoReg());
+
         registerFile.perform(read1,read2,writeReg,lastMux,control.isRegWrite());
         
         int jumpAddress = ShiftLeftTwo.perform(instructionMemory.returnBits(0, 25)) + (nextAddress << 28);
@@ -119,9 +116,15 @@ public class Datapath {
         Datapath d = new Datapath();
 
         d.appendInstruction(537460737);
+        d.appendInstruction(537526274);
+        d.appendInstruction(537591811);
+        d.appendInstruction(537722876);
+
 
         d.oneStep();
-
+        d.oneStep();
+        d.oneStep();
+        d.oneStep();
 
         System.out.println("Reg after oneStep: " + d.getRegisterDataMap());
     }

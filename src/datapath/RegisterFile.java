@@ -9,19 +9,22 @@ public class RegisterFile {
     private Integer readData2 = 0;
 
 
-    private Map<Integer, Integer> registers = new HashMap();
+    private Map<Short, Short> registers = new HashMap();
 
 
     public void perform(int readReg1, int readReg2, int writeReg, int writeData, boolean regWrite){
 
         if(regWrite){
-
-            System.out.println("Writing " + writeData +" to  " + writeReg );
-            registers.put(writeReg,writeData);
+            registers.put((short)writeReg,(short)writeData);
         }
 
-        readData1 = registers.get(readReg1);
-        readData2 = registers.get(readReg2);
+
+        if(registers.get(readReg1) != null){
+            readData1 = (int)registers.get(readReg1);
+        }
+        if(registers.get(readReg2) != null){
+            readData2 = (int)registers.get(readReg2);
+        }
 
     }
 
@@ -45,7 +48,7 @@ public class RegisterFile {
 
 
     // To be used by GUI to display register content
-    public Map<Integer, Integer> getRegisterMap(){
+    public Map<Short, Short> getRegisterMap(){
         return registers;
     }
 
