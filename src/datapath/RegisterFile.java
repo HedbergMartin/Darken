@@ -9,7 +9,7 @@ public class RegisterFile {
     private Integer readData2 = 0;
 
 
-    private Map<Short, Short> registers = new HashMap();
+    private Map<Short, Short> registers = new HashMap<Short, Short>();
 
 
     public void perform(int readReg1, int readReg2, int writeReg, int writeData, boolean regWrite){
