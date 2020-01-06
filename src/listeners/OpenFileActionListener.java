@@ -23,8 +23,10 @@ public class OpenFileActionListener implements ActionListener {
 		if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 			File file = fileChooser.getSelectedFile();
 			//TODO DONT DO IN EDT!
-			MipsCompiler compile = new MipsCompiler(file, null, null);
-			simulator.showProgram(compile.getCommands());
+			MipsCompiler compile = new MipsCompiler(file, "prettyPrint.txt", "hex.txt");
+			compile.toHexFile();
+			compile.prettyPrintFile();
+			simulator.loadProgram(compile.getCommands());
 		}
 	}
 

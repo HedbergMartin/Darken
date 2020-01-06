@@ -35,6 +35,7 @@ public abstract class Command {
     public void setMissingLabelAddress(int address) { }
 
 	public abstract String toHex();
+	public abstract int hexCode();
 
 	public int getRow() {
 		return this.row;

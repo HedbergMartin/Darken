@@ -11,4 +11,9 @@ public class NopCommand extends Command {
 		return "00000000";
 	}
 
+	@Override
+	public int hexCode() {
+		return 0;
+	}
+
 }

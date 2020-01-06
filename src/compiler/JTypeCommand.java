@@ -35,11 +35,16 @@ public class JTypeCommand extends Command {
      */
     @Override
     public String toHex() {
+        return String.format("%08X", this.hexCode());
+    }
+
+	@Override
+	public int hexCode() {
     	int result = this.getOpcode();
     	result = result << 26;
     	result += targetAddress;
     	
-        return String.format("%08X", result);
-    }
+		return result;
+	}
 }
 

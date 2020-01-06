@@ -48,7 +48,7 @@ public class Datapath {
     }
 
     // To be displayed in GUI
-    private Map<Short, Short> getRegisterDataMap(){
+    public Map<Short, Short> getRegisterDataMap(){
         return registerFile.getRegisterMap();
     }
 

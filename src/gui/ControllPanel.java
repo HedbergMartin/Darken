@@ -1,5 +1,7 @@
 package gui;
 
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -25,5 +27,11 @@ public class ControllPanel extends JPanel {
 		JButton button = new JButton(title);
 		this.add(button);
 		return button;
+	}
+	
+	public void addButtonListener(ActionListener listener) {
+		this.runButton.addActionListener(listener);
+		this.stepButton.addActionListener(listener);
+		this.resetButton.addActionListener(listener);
 	}
 }

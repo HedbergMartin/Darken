@@ -24,6 +24,7 @@ public class ITypeCommand extends Command {
 	        this.rs = getRegisterNumber(args.get(2));
 	        this.rt = getRegisterNumber(args.get(1));
 	        addressOrImmediate = Integer.parseInt(args.get(3));
+	        System.out.println("TAHTNEHATNHETNAHNT");
 			break;
 
         case "ori":
@@ -58,16 +59,7 @@ public class ITypeCommand extends Command {
 
     @Override
     public String toHex() {
-    	int result = this.getOpcode();
-        result = result << 5;
-        result += rs;
-        result = result << 5;
-        result += rt;
-        result = result << 16;
-        //65535 Is mask for 16first bits
-        result += (65535 & addressOrImmediate);
-        
-        return String.format("%08X", result);
+        return String.format("%08X", this.hexCode());
     }
 
     public static Map<String, Integer> opt_encoding = new HashMap<String, Integer>();
@@ -78,4 +70,17 @@ public class ITypeCommand extends Command {
         opt_encoding.put("addi", 8);
         opt_encoding.put("ori",13);
     }
+	@Override
+	public int hexCode() {
+    	int result = this.getOpcode();
+        result = result << 5;
+        result += rs;
+        result = result << 5;
+        result += rt;
+        result = result << 16;
+        //65535 Is mask for 16first bits
+        result += (65535 & addressOrImmediate);
+        
+        return result;
+	}
 }

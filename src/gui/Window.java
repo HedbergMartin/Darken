@@ -13,6 +13,7 @@ public class Window extends JFrame {
 	
 	private RegisterPanel regPanel;
 	private ProgramPanel progPanel;
+	private ControllPanel ctrlPanel;
 	private JMenuItem openItem;
 
 	public Window() {
@@ -25,7 +26,8 @@ public class Window extends JFrame {
 	}
 	
 	private void addPanels() {
-		this.add(new ControllPanel(), BorderLayout.NORTH);
+		this.ctrlPanel = new ControllPanel();
+		this.add(this.ctrlPanel, BorderLayout.NORTH);
 		this.progPanel = new ProgramPanel();
 		this.add(this.progPanel, BorderLayout.CENTER);
 		this.regPanel = new RegisterPanel();
@@ -44,9 +46,13 @@ public class Window extends JFrame {
 		this.setJMenuBar(menubar);
 		
 	}
-	
+
 	public void addOpenListener(ActionListener listener) {
 		openItem.addActionListener(listener);
+	}
+	
+	public void addControllListener(ActionListener listener) {
+		this.ctrlPanel.addButtonListener(listener);
 	}
 	
 	/**

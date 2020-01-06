@@ -10,6 +10,11 @@ public class CustomTypeCommand extends Command {
     public String toHex() {
         return null;
     }
+
+	@Override
+	public int hexCode() {
+		return 0;
+	}
     
     
 }

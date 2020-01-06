@@ -64,6 +64,12 @@ public class RTypeCommand extends Command {
      */
     @Override
     public String toHex() {
+
+        return String.format("%08X", this.hexCode());
+    }
+    
+	@Override
+	public int hexCode() {
     	int result = this.getOpcode();
     	result = result << 5;
     	result += rs;
@@ -75,9 +81,9 @@ public class RTypeCommand extends Command {
     	result += shamt;
     	result = result << 6;
     	result += funct;
-
-        return String.format("%08X", result);
-    }
+    	
+		return result;
+	}
 
     private static Map<String, Integer> func_encoding = new HashMap<String, Integer>();
     static {
