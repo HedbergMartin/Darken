@@ -44,13 +44,17 @@ public class RegisterPanel extends JPanel {
             Entry<String, Integer> pair = (Entry<String, Integer>)it.next();
             if (pair.getValue() != 0) {
                 this.table.getModel().setValueAt(pair.getKey(), pair.getValue()-1, 0);
+                this.table.getModel().setValueAt(0, pair.getValue()-1, 1);
             }
             it.remove(); // avoids a ConcurrentModificationException
         }
     }
 
     public void updateTable(String data, int register) {
-        this.table.getModel().setValueAt(data, register, 1);
+        // Register-1 pga vi kör inte med $zero
+        if (register != 0) {
+            this.table.getModel().setValueAt(data, register-1, 1);
+        }
     }
 
 }

@@ -24,7 +24,6 @@ public class ITypeCommand extends Command {
 	        this.rs = getRegisterNumber(args.get(2));
 	        this.rt = getRegisterNumber(args.get(1));
 	        addressOrImmediate = Integer.parseInt(args.get(3));
-	        System.out.println("TAHTNEHATNHETNAHNT");
 			break;
 
         case "ori":

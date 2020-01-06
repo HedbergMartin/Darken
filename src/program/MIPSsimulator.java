@@ -39,14 +39,15 @@ public class MIPSsimulator {
 				this.datapath.appendInstruction(com.hexCode());
 			}
 		}
+		this.window.setCurrentRow(0);
 	}
     
     public void oneStep() {
     	datapath.oneStep();
-    	this.updateGui(datapath.getRegisterDataMap(), datapath.getMemoryDataMap());
+    	this.updateGui(datapath.getCurrentInstructionAddress(),datapath.getRegisterDataMap(), datapath.getMemoryDataMap());
     }
 
-	private void updateGui(Map<Short, Short> registerDataMap,
+	private void updateGui(int currentAddress, Map<Short, Short> registerDataMap,
 			Map<Integer, Integer> memoryDataMap) {
 		
 		
@@ -57,7 +58,8 @@ public class MIPSsimulator {
 				window.writeToRegister(t, u);
 			}
 		});
-		
+
+		this.window.setCurrentRow(currentAddress >> 2);
 	}
     
 }

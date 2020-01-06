@@ -71,6 +71,11 @@ public class Window extends JFrame {
 
 	public void addProgramLine(int row, String hex, String command) {
 		int address = row << 2;
-		this.progPanel.setRowData(new String[] {"0x" + String.format("%08X", address), hex, command});
+		this.progPanel.setRowData(new String[] {" " , "0x" + String.format("%08X", address), hex, command});
 	}
+
+	public void setCurrentRow(int row){
+		this.progPanel.setRow(row);
+	}
+
 }

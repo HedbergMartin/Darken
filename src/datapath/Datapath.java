@@ -43,6 +43,10 @@ public class Datapath {
 
     }
 
+    public int getCurrentInstructionAddress(){
+        return pc.getAddress();
+    }
+
     public void appendInstruction(int instruction){
         instructionMemory.appendInstruction(instruction);
     }

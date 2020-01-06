@@ -30,6 +30,9 @@ public class Control {
 			case 43: //SW
 				output = 0b0010001000;
 				break;
+			default:
+				System.out.println("wat da fak in controller");
+				break;
 		}
     }
 

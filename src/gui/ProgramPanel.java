@@ -11,8 +11,11 @@ public class ProgramPanel extends JPanel{
     private DefaultTableModel model;
     private JTable table;
 
+    private int currentRow = 0;
+
     public ProgramPanel(){
         model = new DefaultTableModel();
+        model.addColumn("Step");
         model.addColumn("Address");
         model.addColumn("Hexadecimal");
         model.addColumn("Command");
@@ -38,4 +41,14 @@ public class ProgramPanel extends JPanel{
         model.addRow(command);
     }
 
+    public void setRow(int row){
+
+        this.model.setValueAt(" ",currentRow,0);
+
+        if(this.model.getRowCount() > row){
+            this.model.setValueAt(">>>",row,0);
+            currentRow = row;
+        }
+
+    }
 }
