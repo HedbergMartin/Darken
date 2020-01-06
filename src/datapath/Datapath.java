@@ -6,19 +6,19 @@ import java.util.Map;
 public class Datapath {
 
     // IF - section
-    PC pc;
-    InstructionMemory instructionMemory;
+    private PC pc;
+    private InstructionMemory instructionMemory;
 
     // ID - section
-    Control control;
-    RegisterFile registerFile;
-    ALUControl aluControl;
+    private Control control;
+    private RegisterFile registerFile;
+    private ALUControl aluControl;
 
     // EX - section
     // Note we have a flying AND here!
 
     // MEM - section
-    DataMemory dataMemory;
+    private DataMemory dataMemory;
 
     // WB - section
 
@@ -48,7 +48,7 @@ public class Datapath {
     }
 
     // To be displayed in GUI
-    public Map<Short, Short> getRegisterDataMap(){
+    private Map<Short, Short> getRegisterDataMap(){
         return registerFile.getRegisterMap();
     }
 
@@ -121,6 +121,7 @@ public class Datapath {
 
         return true;
     }
+
 
     public static void main(String[] args){
 
