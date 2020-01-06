@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
@@ -37,7 +38,8 @@ public class RegisterPanel extends JPanel {
 
     // Dont try to read this :)))
     private void setTable(String register, int values) {
-    	Iterator<Entry<String, Integer>> it = Command.REG_NUMBERS.entrySet().iterator();
+    	
+    	Iterator<Entry<String, Integer>> it = ((HashMap<String, Integer>) Command.REG_NUMBERS.clone()).entrySet().iterator();
         while (it.hasNext()) {
             Entry<String, Integer> pair = (Entry<String, Integer>)it.next();
             if (pair.getValue() != 0) {

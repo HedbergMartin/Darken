@@ -137,7 +137,7 @@ public abstract class Command {
 		originalLine = originalLine + line;
 	}
 	
-	public static Map<String, Integer> REG_NUMBERS = new HashMap<String, Integer>();
+	public final static HashMap<String, Integer> REG_NUMBERS = new HashMap<String, Integer>();
 	static {
 		REG_NUMBERS.put("$zero", 0);
 		REG_NUMBERS.put("$at", 1);

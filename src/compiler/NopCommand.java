@@ -2,7 +2,7 @@ package compiler;
 
 public class NopCommand extends Command {
 
-	NopCommand(String line, int row) {
+	public NopCommand(String line, int row) {
 		super(null, line, row);
 	}
 

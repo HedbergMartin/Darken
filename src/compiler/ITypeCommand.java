@@ -70,6 +70,7 @@ public class ITypeCommand extends Command {
         opt_encoding.put("addi", 8);
         opt_encoding.put("ori",13);
     }
+    
 	@Override
 	public int hexCode() {
     	int result = this.getOpcode();

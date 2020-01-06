@@ -1,5 +1,6 @@
 import compiler.Command;
 import compiler.MipsCompiler;
+import compiler.NopCommand;
 
 public class MIPSAssembler {
 

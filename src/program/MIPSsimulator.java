@@ -1,6 +1,7 @@
 package program;
 import java.util.Map;
 import java.util.Queue;
+import java.util.function.BiConsumer;
 
 import compiler.Command;
 import datapath.Datapath;
@@ -34,7 +35,6 @@ public class MIPSsimulator {
 		while(!commands.isEmpty()) {
 			Command com = commands.poll();
 			if (!com.getCommandLine().equals("")) {
-				System.out.println(com.hexCode());
 				this.window.addProgramLine(com.getRow(), com.toHex(), com.getCommandLine().trim());
 				this.datapath.appendInstruction(com.hexCode());
 			}
@@ -49,9 +49,14 @@ public class MIPSsimulator {
 	private void updateGui(Map<Short, Short> registerDataMap,
 			Map<Integer, Integer> memoryDataMap) {
 		
-		for(int i = 0; i < registerDataMap.size(); i++) {
-			this.window.writeToRegister(i, registerDataMap.get(i));
-		}
+		
+		registerDataMap.forEach(new BiConsumer<Short, Short>() {
+
+			@Override
+			public void accept(Short t, Short u) {
+				window.writeToRegister(t, u);
+			}
+		});
 		
 	}
     
