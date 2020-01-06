@@ -57,13 +57,22 @@ public class Datapath {
         return dataMemory.getMemoryMap();
     }
 
-    public void oneStep(){
+    public void runAll(){
 
+        while(oneStep()){ }
+
+    }
+
+    public boolean oneStep(){
 
         // IF ----
         int currentInstuctionAddress = pc.getAddress();
         instructionMemory.perform(currentInstuctionAddress);
 
+        if(!instructionMemory.hasInstruction()){
+            System.out.println("Done with program!");
+            return false;
+        }
 
         int nextAddress = ALU.performAdd(currentInstuctionAddress,4); // Used as next address if no jump (+4)
 
@@ -109,6 +118,8 @@ public class Datapath {
         int muxResult2 = MUX.perform(muxResult1, jumpAddress, control.isJump());
         
         pc.perform(muxResult2);
+
+        return true;
     }
 
     public static void main(String[] args){
@@ -117,14 +128,9 @@ public class Datapath {
 
         d.appendInstruction(537460737);
         d.appendInstruction(537526274);
-        d.appendInstruction(537591811);
         d.appendInstruction(537722876);
 
-
-        d.oneStep();
-        d.oneStep();
-        d.oneStep();
-        d.oneStep();
+        d.runAll();
 
         System.out.println("Reg after oneStep: " + d.getRegisterDataMap());
     }

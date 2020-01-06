@@ -17,7 +17,12 @@ public class InstructionMemory {
             return;
         }
 
-        instruction = instructionMemory.get(readAddress >> 2);
+        if(instructionMemory.size() > (readAddress >> 2)){
+            instruction = instructionMemory.get(readAddress >> 2);
+        }else{
+            instruction = null;
+        }
+
     }
 
     public int returnBits(int start, int end){
