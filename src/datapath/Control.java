@@ -17,10 +17,12 @@ public class Control {
 				output = 0b0000000101;
 				break;
 			case 8: //Addi
-				output = 0b0010100010;
+				//THA FAQ! Either ALUop == 00(lw,sw) or 01(beq), no clue which is right
+				output = 0b0010100000;
 				break;
 			case 13: //Ori
-				output = 0b0010100010;
+				//THA FAQ! Either ALUop == 00 or 01, no clue which is right
+				output = 0b0010100000;
 				break;
 			case 35: //LW
 				output = 0b0011110000;

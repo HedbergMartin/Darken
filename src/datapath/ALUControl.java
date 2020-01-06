@@ -48,7 +48,9 @@ public class ALUControl {
                     ALUOpOut = 9;
                     break;
                 default:
-                    System.out.println("ALU got invalid instruction: " + instruction);
+                    System.out.println("ALU CONTROLFUCK got invalid instruction: " + instruction + " Al0 " + ALUOp0 + " Alu1 " + ALUOp1);
+                    ALUOpOut = 2;
+                    break;
             }
 
         }

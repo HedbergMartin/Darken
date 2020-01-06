@@ -12,7 +12,6 @@ public class ALU {
 
         switch(operation) {
             case 0:
-
                 // AND
                 if(leftOperand == 1 && rightOperand == 1){
                     ALUresult = 1;
@@ -78,6 +77,7 @@ public class ALU {
             case 9:
                 //JR
                 //TODO
+                break;
             default:
                 System.out.println("ALU got invalid operation: " + operation);
         }
