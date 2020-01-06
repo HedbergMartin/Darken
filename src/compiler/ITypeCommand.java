@@ -10,7 +10,7 @@ public class ITypeCommand extends Command {
     private String address = null;
 
     public ITypeCommand(ArrayList<String> args, String line, int row) {
-    	super(line, row);
+    	super(args, line, row);
     	this.setOpcode(opt_encoding.get(args.get(0)));
     	
     	switch (args.get(0).toLowerCase()) {

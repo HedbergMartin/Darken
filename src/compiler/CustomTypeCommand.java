@@ -3,7 +3,7 @@ package compiler;
 public class CustomTypeCommand extends Command {
 
     public CustomTypeCommand(String line) {
-        super(line, 0);
+        super(null, line, 0);
     }
 
     @Override

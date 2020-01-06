@@ -7,7 +7,7 @@ public class JTypeCommand extends Command {
     private String address = null;
     
     public JTypeCommand(ArrayList<String> args, String line, int row) {
-    	super(line, row);
+    	super(args, line, row);
 		this.setOpcode(2);
 		this.address = args.get(1);
     }

@@ -65,8 +65,8 @@ public class Window extends JFrame {
 		this.regPanel.updateTable(Integer.toString(value), register);
 	}
 
-	public void addProgramLine(int address, String string) {
-		this.progPanel.setRowData(new String[] {Integer.toString(address), string});
-		
+	public void addProgramLine(int row, String hex, String command) {
+		int address = row << 2;
+		this.progPanel.setRowData(new String[] {"0x" + String.format("%08X", address), hex, command});
 	}
 }

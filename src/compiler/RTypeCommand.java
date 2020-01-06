@@ -11,7 +11,7 @@ public class RTypeCommand extends Command {
     private int funct; // 6 bit
     
     public RTypeCommand(ArrayList<String> args, String line, int row) {
-    	super(line, row);
+    	super(args, line, row);
     	this.setOpcode(0);
     	
     	switch (args.get(0).toLowerCase()) {

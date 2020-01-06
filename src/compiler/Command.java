@@ -1,5 +1,6 @@
 package compiler;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -10,8 +11,15 @@ public abstract class Command {
 	private int operation;
 
 	private String originalLine;
+	private String commandLine;
 
-	Command(String line, int row) {
+	public Command(ArrayList<String> args, String line, int row) {
+		commandLine = "";
+		if (args != null) {
+			for (String arg : args) {
+				commandLine += arg + " ";
+			}
+		}
 		this.originalLine = line;
 		this.row = row;
 	}
@@ -118,6 +126,10 @@ public abstract class Command {
 
 	public String getOriginalLine() {
 		return originalLine;
+	}
+	
+	public String getCommandLine() {
+		return commandLine;
 	}
 
 	public void appendToLine(String line){

@@ -3,7 +3,7 @@ package compiler;
 public class NopCommand extends Command {
 
 	NopCommand(String line, int row) {
-		super(line, row);
+		super(null, line, row);
 	}
 
 	@Override
