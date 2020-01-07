@@ -52,7 +52,7 @@ public class Datapath {
     }
 
     // To be displayed in GUI
-    public Map<Short, Short> getRegisterDataMap(){
+    public Map<Integer, Integer> getRegisterDataMap(){
         return registerFile.getRegisterMap();
     }
 
@@ -86,21 +86,21 @@ public class Datapath {
 
         // ID ---
         // Register file ----
-        boolean regWrite = control.isRegWrite();
         int read1 = instructionMemory.returnBits(21,25);
         int read2 = instructionMemory.returnBits(16,20);
         int writeReg = MUX.perform(read2,instructionMemory.returnBits(11,15),control.isRegDst());
-        int writeData = 0; // Nothing in IF-phase
 
-        registerFile.perform(read1,read2,writeReg,writeData,regWrite);
+        registerFile.readData(read1,read2);
         // Register file ----
 
 
 
         // Data memory ------
 
+        int signExtend = (short)instructionMemory.returnBits(0,15);
+        
         int ALUres = ALU.perform(registerFile.readData1(),
-                MUX.perform(registerFile.readData2(),instructionMemory.returnBits(0,15),control.isALUSrc()),
+                MUX.perform(registerFile.readData2(),signExtend,control.isALUSrc()),
                 aluControl.getALUOp());
 
         int address = ALUres;
@@ -111,7 +111,7 @@ public class Datapath {
 
         int lastMux = MUX.perform(ALUres, dataMemory.getReadData(),control.isMemtoReg());
 
-        registerFile.perform(read1,read2,writeReg,lastMux,control.isRegWrite());
+        registerFile.writeData(writeReg,lastMux,control.isRegWrite());
         
         int jumpAddress = ShiftLeftTwo.perform(instructionMemory.returnBits(0, 25)) + (nextAddress & -268435456);//Bitmask for bits 31-28
 

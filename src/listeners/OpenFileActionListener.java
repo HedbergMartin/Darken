@@ -21,7 +21,7 @@ public class OpenFileActionListener implements ActionListener {
 		// TODO Auto-generated method stub
 		//JFileChooser fileChooser = new JFileChooser();
 		//if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-			File file = new File("testFile2.s");//fileChooser.getSelectedFile();
+			File file = new File("testFile1.s");//fileChooser.getSelectedFile();
 			//TODO DONT DO IN EDT!
 			MipsCompiler compile = new MipsCompiler(file, "prettyPrint.txt", "hex.txt");
 			simulator.loadProgram(compile.getCommands());

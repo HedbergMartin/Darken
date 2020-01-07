@@ -32,7 +32,6 @@ public class MIPSsimulator {
 	}
 
 	public void loadProgram(Queue<Command> commands) {
-		System.out.println(commands);
 		while(!commands.isEmpty()) {
 			Command com = commands.poll();
 			if (!com.getCommandLine().equals("")) {
@@ -48,14 +47,14 @@ public class MIPSsimulator {
     	this.updateGui(datapath.getCurrentInstructionAddress(),datapath.getRegisterDataMap(), datapath.getMemoryDataMap());
     }
 
-	private void updateGui(int currentAddress, Map<Short, Short> registerDataMap,
+	private void updateGui(int currentAddress, Map<Integer, Integer> map,
 			Map<Integer, Integer> memoryDataMap) {
 		
 		
-		registerDataMap.forEach(new BiConsumer<Short, Short>() {
+		map.forEach(new BiConsumer<Integer, Integer>() {
 
 			@Override
-			public void accept(Short t, Short u) {
+			public void accept(Integer t, Integer u) {
 				window.writeToRegister(t, u);
 			}
 		});
