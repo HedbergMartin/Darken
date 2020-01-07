@@ -111,11 +111,14 @@ public class Datapath {
 
         int lastMux = MUX.perform(ALUres, dataMemory.getReadData(),control.isMemtoReg());
 
+        if (writeReg == 0) {
+        	System.out.println();
+        	registerFile.readData(0, 13);
+        }
         registerFile.writeData(writeReg,lastMux,control.isRegWrite());
-        
         int jumpAddress = ShiftLeftTwo.perform(instructionMemory.returnBits(0, 25)) + (nextAddress & -268435456);//Bitmask for bits 31-28
 
-        int aluResult = ALU.performAdd(nextAddress, ShiftLeftTwo.perform(instructionMemory.returnBits(0, 15)));
+        int aluResult = ALU.performAdd(nextAddress, ShiftLeftTwo.perform(signExtend));
 
         int muxResult1 = MUX.perform(nextAddress, aluResult, control.isBranch() && ALUres == 0);
         

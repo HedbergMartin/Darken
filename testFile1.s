@@ -10,11 +10,14 @@
 	add $t5, $t3, $t1
 	sw  $t2, 4($t5)
 	lw  $t4, 4($t5)
+	addi $t2, $zero, 2
 	nop
 
 label:	nop
 	nop
 	nop
+	add $t2, $t2, $t2
+	sw $t2, $t2
 	sub $t4, $t3, $t3
 	nop
 	beq $t4, $zero, label
