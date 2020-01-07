@@ -86,4 +86,9 @@ public class Window extends JFrame {
 		this.progPanel.setRow(row);
 	}
 
+	// Decimal or Hex
+	public void toggleFormat(){
+		this.regPanel.toggleFormat();
+	}
+
 }

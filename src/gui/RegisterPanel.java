@@ -19,6 +19,7 @@ public class RegisterPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 	private JTable table;
+	private boolean decimalFormat = true;
 
     public RegisterPanel () {
         createTable();
@@ -55,6 +56,19 @@ public class RegisterPanel extends JPanel {
         if (register != 0) {
             this.table.getModel().setValueAt(data, register-1, 1);
         }
+    }
+
+    public void toggleFormat(){
+
+        for(int rowIndex = 0; rowIndex < this.table.getModel().getRowCount(); rowIndex++){
+            String value = this.table.getModel().getValueAt(rowIndex,1).toString();
+            String newValue = decimalFormat ?
+                    Integer.toHexString(Integer.parseInt(value)) :
+                    ""+Long.valueOf(value,16).intValue();
+
+            this.table.getModel().setValueAt(newValue, rowIndex, 1);
+        }
+        this.decimalFormat = !decimalFormat;
     }
 
 }

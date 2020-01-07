@@ -13,12 +13,6 @@ import static java.lang.Thread.sleep;
 
 public class MIPSsimulator {
     public static void main(String[] args) {
-        //if (args.length != 3){
-        //    System.exit(-1);
-        //}
-        //;
-        //compiler.prettyPrintFile();
-        //compiler.toHexFile();
     	new MIPSsimulator();
     }
     
@@ -34,14 +28,6 @@ public class MIPSsimulator {
 	}
 
 	public void loadProgram(Queue<Command> commands) {
-
-    	/*this.window = new Window();
-		this.window.addOpenListener(new OpenFileActionListener(this));
-		this.window.addControllListener(new ControllButtonListener(this));
-		this.datapath = new Datapath();
-*/
-
-		//this.window.clearProgramTable();
 		while(!commands.isEmpty()) {
 			Command com = commands.poll();
 			if (!com.getCommandLine().equals("")) {
@@ -91,6 +77,10 @@ public class MIPSsimulator {
     	while (this.datapath.oneStep()){
 			this.updateGui(datapath.getCurrentInstructionAddress(),datapath.getRegisterDataMap(), datapath.getMemoryDataMap());
 		}
+	}
+
+	public void toggleRegisterValueFormat() {
+		this.window.toggleFormat();
 	}
     
 }

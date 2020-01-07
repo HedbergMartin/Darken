@@ -23,7 +23,7 @@ public class ControllButtonListener implements ActionListener {
 			this.simulator.resetWindow();
 		} else {
 			//TODO switch hex/dec
-
+			this.simulator.toggleRegisterValueFormat();
 		}
 		
 	}
