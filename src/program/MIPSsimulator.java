@@ -17,13 +17,13 @@ public class MIPSsimulator {
         //;
         //compiler.prettyPrintFile();
         //compiler.toHexFile();
-    	new MIPSsimulator(args);
+    	new MIPSsimulator();
     }
     
     private Window window;
     private Datapath datapath;
     
-    public MIPSsimulator(String[] args) {
+    public MIPSsimulator() {
     	this.window = new Window();
     	this.window.addOpenListener(new OpenFileActionListener(this));
     	this.window.addControllListener(new ControllButtonListener(this));
@@ -32,6 +32,14 @@ public class MIPSsimulator {
 	}
 
 	public void loadProgram(Queue<Command> commands) {
+
+    	/*this.window = new Window();
+		this.window.addOpenListener(new OpenFileActionListener(this));
+		this.window.addControllListener(new ControllButtonListener(this));
+		this.datapath = new Datapath();
+*/
+
+		//this.window.clearProgramTable();
 		while(!commands.isEmpty()) {
 			Command com = commands.poll();
 			if (!com.getCommandLine().equals("")) {

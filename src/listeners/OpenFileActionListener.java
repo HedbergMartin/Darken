@@ -24,6 +24,7 @@ public class OpenFileActionListener implements ActionListener {
 			File file = new File("testFile1.s");//fileChooser.getSelectedFile();
 			//TODO DONT DO IN EDT!
 			MipsCompiler compile = new MipsCompiler(file, "prettyPrint.txt", "hex.txt");
+			this.simulator = new MIPSsimulator();
 			simulator.loadProgram(compile.getCommands());
 		//}
 	}
