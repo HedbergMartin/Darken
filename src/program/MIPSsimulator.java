@@ -47,17 +47,27 @@ public class MIPSsimulator {
     	this.updateGui(datapath.getCurrentInstructionAddress(),datapath.getRegisterDataMap(), datapath.getMemoryDataMap());
     }
 
-	private void updateGui(int currentAddress, Map<Integer, Integer> map,
+	private void updateGui(int currentAddress, Map<Integer, Integer> registerDataMap,
 			Map<Integer, Integer> memoryDataMap) {
 		
 		
-		map.forEach(new BiConsumer<Integer, Integer>() {
+		registerDataMap.forEach(new BiConsumer<Integer, Integer>() {
 
 			@Override
 			public void accept(Integer t, Integer u) {
 				window.writeToRegister(t, u);
 			}
 		});
+		
+		memoryDataMap.forEach(new BiConsumer<Integer, Integer>() {
+
+			@Override
+			public void accept(Integer address, Integer value) {
+				window.writeToDatamem(address, value);
+			}
+		});
+		
+		
 
 		this.window.setCurrentRow(currentAddress >> 2);
 	}

@@ -16,5 +16,5 @@ label:	nop
 	nop
 	nop
 	sub $t4, $t3, $t3
-	beq $t4, $zero, label
 	nop
+	beq $t4, $zero, label

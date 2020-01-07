@@ -14,6 +14,7 @@ public class Window extends JFrame {
 	private RegisterPanel regPanel;
 	private ProgramPanel progPanel;
 	private ControllPanel ctrlPanel;
+	private DataMemPanel memPanel;
 	private JMenuItem openItem;
 
 	public Window() {
@@ -32,7 +33,8 @@ public class Window extends JFrame {
 		this.add(this.progPanel, BorderLayout.CENTER);
 		this.regPanel = new RegisterPanel();
 		this.add(this.regPanel, BorderLayout.WEST);
-		this.add(new DataMemPanel(1024), BorderLayout.SOUTH);
+		this.memPanel = new DataMemPanel(1024);
+		this.add(this.memPanel, BorderLayout.SOUTH);
 	}
 	
 	private void createMenubar() {
@@ -67,6 +69,10 @@ public class Window extends JFrame {
 	
 	public void writeToRegister(int register, int value) {
 		this.regPanel.updateTable(Integer.toString(value), register);
+	}
+	
+	public void writeToDatamem(int memoryLoc, int value) {
+		this.memPanel.setMemoryValue(value, memoryLoc);
 	}
 
 	public void addProgramLine(int row, String hex, String command) {
