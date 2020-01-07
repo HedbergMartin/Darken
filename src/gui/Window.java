@@ -8,6 +8,8 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 
 public class Window extends JFrame {
 	
@@ -16,8 +18,17 @@ public class Window extends JFrame {
 	private ControllPanel ctrlPanel;
 	private DataMemPanel memPanel;
 	private JMenuItem openItem;
+	
+	private static Window window;
+	
+	public static Window getWindowInstance() {
+		if (window == null) {
+			window = new Window();
+		}
+		return window;
+	}
 
-	public Window() {
+	private Window() {
 		super("Mips Simulator");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setSize(new Dimension(1024, 500));
@@ -70,20 +81,55 @@ public class Window extends JFrame {
 	}
 	
 	public void writeToRegister(int register, int value) {
-		this.regPanel.updateTable(Integer.toString(value), register);
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				regPanel.updateTable(Integer.toString(value), register);
+			}
+		});
 	}
 	
 	public void writeToDatamem(int memoryLoc, int value) {
-		this.memPanel.setMemoryValue(value, memoryLoc);
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				memPanel.setMemoryValue(value, memoryLoc);
+			}
+		});
 	}
 
 	public void addProgramLine(int row, String hex, String command) {
-		int address = row << 2;
-		this.progPanel.setRowData(new String[] {" " , "0x" + String.format("%08X", address), hex, command});
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				int address = row << 2;
+				progPanel.setRowData(new String[] {" " , "0x" + String.format("%08X", address), hex, command});
+			}
+		});
 	}
 
 	public void setCurrentRow(int row){
-		this.progPanel.setRow(row);
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				progPanel.setRow(row);
+			}
+		});
 	}
 
+	public void resetProgram() {
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				progPanel.reset();
+				regPanel.reset();
+				memPanel.reset();
+			}
+		});
+	}
 }

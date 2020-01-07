@@ -138,6 +138,8 @@ public class MipsCompiler {
             case N:
             	newCommand = new NopCommand(list, line, row);
             	break;
+            case E:
+            	newCommand = new ExitCommand(list, line, row);
         }
 		return newCommand;
 	}
@@ -203,12 +205,14 @@ public class MipsCompiler {
         COMMAND_TYPES.put("j", type.J);
         COMMAND_TYPES.put("jr", type.R);//Speciell
         COMMAND_TYPES.put("nop", type.N);//Nop
+        COMMAND_TYPES.put("exit", type.E);//Nop
     }
 	
 	private enum type {
 		R,
 		I,
 		J,
-        N // Nop type
+        N, // Nop type
+        E
 	}
 }

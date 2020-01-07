@@ -61,14 +61,7 @@ public class Datapath {
         return dataMemory.getMemoryMap();
     }
 
-    public void runAll(){
-
-        while(oneStep()){ }
-
-    }
-
     public boolean oneStep(){
-
         // IF ----
         int currentInstuctionAddress = pc.getAddress();
         instructionMemory.perform(currentInstuctionAddress);
@@ -130,4 +123,13 @@ public class Datapath {
 
         return true;
     }
+
+	public void reset() {
+        pc = new PC();
+        instructionMemory = new InstructionMemory();
+        control = new Control();
+        registerFile = new RegisterFile();
+        aluControl = new ALUControl();
+        dataMemory = new DataMemory();
+	}
 }
