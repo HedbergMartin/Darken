@@ -20,4 +20,9 @@ public class ExitCommand extends Command {
 		return 268500991;
 	}
 
+	@Override
+	public int[] getFields() {
+		return null;
+	}
+
 }

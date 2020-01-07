@@ -46,5 +46,10 @@ public class JTypeCommand extends Command {
     	
 		return result;
 	}
+
+	@Override
+	public int[] getFields() {
+		return new int[]{this.getOpcode(), this.targetAddress};
+	}
 }
 

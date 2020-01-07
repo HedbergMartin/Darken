@@ -3,6 +3,7 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -100,13 +101,14 @@ public class Window extends JFrame {
 		});
 	}
 
-	public void addProgramLine(int row, String hex, String command) {
+	public void addProgramLine(int row, String hex, String command, int[] fields) {
+		
 		SwingUtilities.invokeLater(new Runnable() {
-
+			
 			@Override
 			public void run() {
 				int address = row << 2;
-				progPanel.setRowData(new String[] {" " , "0x" + String.format("%08X", address), hex, command});
+				progPanel.setRowData(new String[] {" " , "0x" + String.format("%08X", address), hex, command, Arrays.toString(fields)});
 			}
 		});
 	}

@@ -15,6 +15,11 @@ public class CustomTypeCommand extends Command {
 	public int hexCode() {
 		return 0;
 	}
+
+	@Override
+	public int[] getFields() {
+		return null;
+	}
     
     
 }

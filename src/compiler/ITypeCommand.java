@@ -83,4 +83,9 @@ public class ITypeCommand extends Command {
         
         return result;
 	}
+
+	@Override
+	public int[] getFields() {
+		return new int[]{this.getOpcode(), this.rs, this.rt, this.addressOrImmediate};
+	}
 }

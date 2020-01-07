@@ -66,10 +66,14 @@ public class RegisterPanel extends JPanel {
 
         for(int rowIndex = 0; rowIndex < this.table.getModel().getRowCount(); rowIndex++){
             String value = this.table.getModel().getValueAt(rowIndex,1).toString();
-            String newValue = decimalFormat ?
-                    Integer.toHexString(Integer.parseInt(value)) :
-                    ""+Long.valueOf(value,16).intValue();
-
+        	String newValue;
+        	if (decimalFormat) {
+        		newValue = "0x" + String.format("%08X", Integer.valueOf(value));//Integer.toHexString(Integer.parseInt(value));
+        	} else {
+        		value = value.substring(2, value.length());
+        		newValue = Integer.toString(Long.valueOf(value,16).intValue());
+        	}
+        	
             this.table.getModel().setValueAt(newValue, rowIndex, 1);
         }
         this.decimalFormat = !decimalFormat;

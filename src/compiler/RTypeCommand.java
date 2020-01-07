@@ -98,6 +98,11 @@ public class RTypeCommand extends Command {
         func_encoding.put("sra",3); //Spec
         func_encoding.put("jr", 8);//Speciell
     }
+	@Override
+	public int[] getFields() {
+		// TODO Auto-generated method stub
+		return new int[]{this.getOpcode(), this.rs, this.rt, this.rd, this.shamt, this.funct};
+	}
 }
 
 

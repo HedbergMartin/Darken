@@ -38,7 +38,7 @@ public class MIPSsimulator {
 		while(!commands.isEmpty()) {
 			Command com = commands.poll();
 			if (!com.getCommandLine().equals("")) {
-				this.window.addProgramLine(com.getRow(), com.toHex(), com.getCommandLine().trim());
+				this.window.addProgramLine(com.getRow(), com.toHex(), com.getCommandLine().trim(), com.getFields());
 				this.datapath.appendInstruction(com.hexCode());
 			}
 		}

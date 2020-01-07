@@ -36,6 +36,7 @@ public abstract class Command {
 
 	public abstract String toHex();
 	public abstract int hexCode();
+	public abstract int[] getFields();
 
 	public int getRow() {
 		return this.row;

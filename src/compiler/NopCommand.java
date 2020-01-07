@@ -18,4 +18,10 @@ public class NopCommand extends Command {
 		return 0;
 	}
 
+	@Override
+	public int[] getFields() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
