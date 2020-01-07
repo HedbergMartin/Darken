@@ -14,12 +14,13 @@ public class Window extends JFrame {
 	private RegisterPanel regPanel;
 	private ProgramPanel progPanel;
 	private ControllPanel ctrlPanel;
+	private DataMemPanel memPanel;
 	private JMenuItem openItem;
 
 	public Window() {
 		super("Mips Simulator");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setSize(new Dimension(1024, 1024));
+		this.setSize(new Dimension(1024, 500));
 		this.addPanels();
 		this.createMenubar();
 		this.completeWindow();
@@ -31,8 +32,11 @@ public class Window extends JFrame {
 		this.progPanel = new ProgramPanel();
 		this.add(this.progPanel, BorderLayout.CENTER);
 		this.regPanel = new RegisterPanel();
+		this.regPanel.setPreferredSize(new Dimension(300,200));
 		this.add(this.regPanel, BorderLayout.WEST);
-		this.add(new DataMemPanel(1024), BorderLayout.SOUTH);
+		this.memPanel = new DataMemPanel(1024);
+		this.memPanel.setPreferredSize(new Dimension(1024,200));
+		this.add(this.memPanel, BorderLayout.SOUTH);
 	}
 	
 	private void createMenubar() {
@@ -61,12 +65,16 @@ public class Window extends JFrame {
 	public void completeWindow() {
 		this.pack();
 		this.setLocationRelativeTo(null);
-		this.setResizable(false);
+		this.setResizable(true);
 		this.setVisible(true);
 	}
 	
 	public void writeToRegister(int register, int value) {
 		this.regPanel.updateTable(Integer.toString(value), register);
+	}
+	
+	public void writeToDatamem(int memoryLoc, int value) {
+		this.memPanel.setMemoryValue(value, memoryLoc);
 	}
 
 	public void addProgramLine(int row, String hex, String command) {

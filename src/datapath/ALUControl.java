@@ -12,8 +12,8 @@ public class ALUControl {
             ALUOpOut = 2;
 
         } else if (ALUOp0) {
-
-            ALUOpOut = 6;
+        	//Beq
+            ALUOpOut = 3;
 
         }else {
             switch(instruction) { // R-type funct field

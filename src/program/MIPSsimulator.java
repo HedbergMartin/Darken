@@ -9,6 +9,8 @@ import gui.Window;
 import listeners.OpenFileActionListener;
 import listeners.ControllButtonListener;
 
+import static java.lang.Thread.sleep;
+
 public class MIPSsimulator {
     public static void main(String[] args) {
         //if (args.length != 3){
@@ -55,19 +57,40 @@ public class MIPSsimulator {
     	this.updateGui(datapath.getCurrentInstructionAddress(),datapath.getRegisterDataMap(), datapath.getMemoryDataMap());
     }
 
-	private void updateGui(int currentAddress, Map<Integer, Integer> map,
+	private void updateGui(int currentAddress, Map<Integer, Integer> registerDataMap,
 			Map<Integer, Integer> memoryDataMap) {
 		
 		
-		map.forEach(new BiConsumer<Integer, Integer>() {
+		registerDataMap.forEach(new BiConsumer<Integer, Integer>() {
 
 			@Override
 			public void accept(Integer t, Integer u) {
 				window.writeToRegister(t, u);
 			}
 		});
+		
+		memoryDataMap.forEach(new BiConsumer<Integer, Integer>() {
+
+			@Override
+			public void accept(Integer address, Integer value) {
+				window.writeToDatamem(address, value);
+			}
+		});
+		
+		
 
 		this.window.setCurrentRow(currentAddress >> 2);
+	}
+
+	public void resetWindow(){
+    	this.window.setCurrentRow(0);
+    	//TODO regiosters and datamemory
+	}
+
+	public void run(){
+    	while (this.datapath.oneStep()){
+			this.updateGui(datapath.getCurrentInstructionAddress(),datapath.getRegisterDataMap(), datapath.getMemoryDataMap());
+		}
 	}
     
 }

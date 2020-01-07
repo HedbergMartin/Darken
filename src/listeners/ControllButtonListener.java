@@ -15,7 +15,16 @@ public class ControllButtonListener implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		this.simulator.oneStep();
+		if( arg0.getActionCommand().equals("Step")){
+			this.simulator.oneStep();
+		} else if (arg0.getActionCommand().equals("Run")){
+			this.simulator.run();
+		} else if(arg0.getActionCommand().equals("Reset")){
+			this.simulator.resetWindow();
+		} else {
+			//TODO switch hex/dec
+
+		}
 		
 	}
 

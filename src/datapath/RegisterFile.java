@@ -8,7 +8,6 @@ public class RegisterFile {
     private Integer readData1 = 0;
     private Integer readData2 = 0;
 
-
     private Map<Integer, Integer> registers = new HashMap<Integer, Integer>();
 
 
