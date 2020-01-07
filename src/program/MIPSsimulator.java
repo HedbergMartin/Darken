@@ -9,6 +9,8 @@ import gui.Window;
 import listeners.OpenFileActionListener;
 import listeners.ControllButtonListener;
 
+import static java.lang.Thread.sleep;
+
 public class MIPSsimulator {
     public static void main(String[] args) {
         //if (args.length != 3){
@@ -60,6 +62,17 @@ public class MIPSsimulator {
 		});
 
 		this.window.setCurrentRow(currentAddress >> 2);
+	}
+
+	public void resetWindow(){
+    	this.window.setCurrentRow(0);
+    	//TODO regiosters and datamemory
+	}
+
+	public void run(){
+    	while (this.datapath.oneStep()){
+			this.updateGui(datapath.getCurrentInstructionAddress(),datapath.getRegisterDataMap(), datapath.getMemoryDataMap());
+		}
 	}
     
 }
