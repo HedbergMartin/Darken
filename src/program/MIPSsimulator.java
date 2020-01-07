@@ -2,7 +2,6 @@ package program;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
-import java.util.concurrent.BlockingQueue;
 import java.util.function.BiConsumer;
 
 import compiler.Command;
@@ -10,8 +9,6 @@ import datapath.Datapath;
 import gui.Window;
 import listeners.OpenFileActionListener;
 import listeners.ControllButtonListener;
-
-import static java.lang.Thread.sleep;
 
 public class MIPSsimulator {
     public static void main(String[] args) {
@@ -21,6 +18,8 @@ public class MIPSsimulator {
     private Window window;
     private Datapath datapath;
     private Queue<Command> lastCommandQueue;
+    
+    private boolean isAutoRunning = false;
 
     public MIPSsimulator() {
     	this.window = Window.getWindowInstance();
@@ -77,23 +76,29 @@ public class MIPSsimulator {
 
 	public void resetWindow(){
 		this.loadProgram(lastCommandQueue);
+		this.isAutoRunning = false;
 	}
 
 	public void run(){
-		new Thread(new Runnable() {
+		if (!this.isAutoRunning) {
+			this.isAutoRunning = true;
+			new Thread(new Runnable() {
 
-			@Override
-			public void run() {
-		    	while (datapath.oneStep()){
-					updateGui(datapath.getCurrentInstructionAddress(),datapath.getRegisterDataMap(), datapath.getMemoryDataMap());
-					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-		    	}
-			}
-		}).start();
+				@Override
+				public void run() {
+			    	while (datapath.oneStep() && isAutoRunning){
+						updateGui(datapath.getCurrentInstructionAddress(),datapath.getRegisterDataMap(), datapath.getMemoryDataMap());
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+			    	}
+				}
+			}).start();
+		} else {
+			this.isAutoRunning = false;
+		}
 	}
 
 	public void toggleRegisterValueFormat() {

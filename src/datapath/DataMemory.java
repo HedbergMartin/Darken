@@ -7,7 +7,7 @@ public class DataMemory {
 
     private int readData = 0;
 
-    private Map<Integer, Integer> memoryMap = new HashMap(); // Address -> data
+    private Map<Integer, Integer> memoryMap = new HashMap<Integer, Integer>(); // Address -> data
 
 
     // Returns readData

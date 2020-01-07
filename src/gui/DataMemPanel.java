@@ -9,9 +9,6 @@ import javax.swing.table.TableModel;
 
 public class DataMemPanel extends JPanel {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	private JTable table;

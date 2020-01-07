@@ -10,9 +10,10 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
 
 public class Window extends JFrame {
+	
+	private static final long serialVersionUID = 1L;
 	
 	private RegisterPanel regPanel;
 	private ProgramPanel progPanel;
@@ -136,6 +137,7 @@ public class Window extends JFrame {
 				progPanel.reset();
 				regPanel.reset();
 				memPanel.reset();
+				ctrlPanel.enableButtons();
 			}
 		});
 	}

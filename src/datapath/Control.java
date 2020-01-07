@@ -3,19 +3,7 @@ package datapath;
 public class Control {
 	
 	private int output = 0;
-	private boolean RegDst = false;
-	private boolean ALUSrc = false;
-	private boolean MemToReg = false;
-	private boolean RegWrite = false;
-	private boolean MemRead = false;
-	private boolean MemWrite = false;
-	private boolean Branch = false;
-	private boolean ALUOp1 = false;
-	private boolean ALUOp2 = false;
-	private boolean Jump = false;
-	private boolean JumpReg = false;
-
-    public void perform(int instruction, int funct) {
+	public void perform(int instruction, int funct) {
     	switch (instruction) {
 			case 0:
 				if (funct == 8) {

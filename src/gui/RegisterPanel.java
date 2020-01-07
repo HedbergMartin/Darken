@@ -13,9 +13,6 @@ import compiler.Command;
 
 public class RegisterPanel extends JPanel {
 	
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	private JTable table;
@@ -40,7 +37,8 @@ public class RegisterPanel extends JPanel {
     // Dont try to read this :)))
     private void initTable() {
     	
-    	Iterator<Entry<String, Integer>> it = ((HashMap<String, Integer>) Command.REG_NUMBERS.clone()).entrySet().iterator();
+    	@SuppressWarnings("unchecked")
+		Iterator<Entry<String, Integer>> it = ((HashMap<String, Integer>) Command.REG_NUMBERS.clone()).entrySet().iterator();
         while (it.hasNext()) {
             Entry<String, Integer> pair = (Entry<String, Integer>)it.next();
             if (pair.getValue() != 0) {

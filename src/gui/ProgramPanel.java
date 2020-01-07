@@ -7,7 +7,10 @@ import static javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED;
 import static javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED;
 
 public class ProgramPanel extends JPanel{
-    private JScrollPane scroll;
+	
+	private static final long serialVersionUID = 1L;
+	
+	private JScrollPane scroll;
     private DefaultTableModel model;
     private JTable table;
 
