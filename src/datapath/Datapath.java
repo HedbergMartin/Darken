@@ -61,14 +61,7 @@ public class Datapath {
         return dataMemory.getMemoryMap();
     }
 
-    public void runAll(){
-
-        while(oneStep()){ }
-
-    }
-
     public boolean oneStep(){
-
         // IF ----
         int currentInstuctionAddress = pc.getAddress();
         instructionMemory.perform(currentInstuctionAddress);
@@ -111,11 +104,14 @@ public class Datapath {
 
         int lastMux = MUX.perform(ALUres, dataMemory.getReadData(),control.isMemtoReg());
 
+        if (writeReg == 0) {
+        	System.out.println();
+        	registerFile.readData(0, 13);
+        }
         registerFile.writeData(writeReg,lastMux,control.isRegWrite());
-        
         int jumpAddress = ShiftLeftTwo.perform(instructionMemory.returnBits(0, 25)) + (nextAddress & -268435456);//Bitmask for bits 31-28
 
-        int aluResult = ALU.performAdd(nextAddress, ShiftLeftTwo.perform(instructionMemory.returnBits(0, 15)));
+        int aluResult = ALU.performAdd(nextAddress, ShiftLeftTwo.perform(signExtend));
 
         int muxResult1 = MUX.perform(nextAddress, aluResult, control.isBranch() && ALUres == 0);
         
@@ -127,4 +123,13 @@ public class Datapath {
 
         return true;
     }
+
+	public void reset() {
+        pc = new PC();
+        instructionMemory = new InstructionMemory();
+        control = new Control();
+        registerFile = new RegisterFile();
+        aluControl = new ALUControl();
+        dataMemory = new DataMemory();
+	}
 }

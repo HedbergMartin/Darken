@@ -18,14 +18,19 @@ public class OpenFileActionListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		//JFileChooser fileChooser = new JFileChooser();
-		//if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-			File file = new File("testFile1.s");//fileChooser.getSelectedFile();
-			//TODO DONT DO IN EDT!
-			MipsCompiler compile = new MipsCompiler(file, "prettyPrint.txt", "hex.txt");
-			simulator.loadProgram(compile.getCommands());
-		//}
+
+		JFileChooser fileChooser = new JFileChooser();
+		if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+			new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+						File file = fileChooser.getSelectedFile();
+						MipsCompiler compile = new MipsCompiler(file, null, null);
+						simulator.loadProgram(compile.getCommands());
+				}
+			}).start();
+		}
 	}
 
 }

@@ -34,11 +34,11 @@ public class RegisterPanel extends JPanel {
 		JScrollPane scroll = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		this.add(scroll);
 		
-		this.setTable("0", 0);
+		this.initTable();
     }
 
     // Dont try to read this :)))
-    private void setTable(String register, int values) {
+    private void initTable() {
     	
     	Iterator<Entry<String, Integer>> it = ((HashMap<String, Integer>) Command.REG_NUMBERS.clone()).entrySet().iterator();
         while (it.hasNext()) {
@@ -57,6 +57,10 @@ public class RegisterPanel extends JPanel {
             this.table.getModel().setValueAt(data, register-1, 1);
         }
     }
+
+	public void reset() {
+		this.initTable();
+	}
 
     public void toggleFormat(){
 

@@ -1,6 +1,8 @@
 package program;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
+import java.util.concurrent.BlockingQueue;
 import java.util.function.BiConsumer;
 
 import compiler.Command;
@@ -18,9 +20,10 @@ public class MIPSsimulator {
     
     private Window window;
     private Datapath datapath;
-    
+    private Queue<Command> lastCommandQueue;
+
     public MIPSsimulator() {
-    	this.window = new Window();
+    	this.window = Window.getWindowInstance();
     	this.window.addOpenListener(new OpenFileActionListener(this));
     	this.window.addControllListener(new ControllButtonListener(this));
     	this.datapath = new Datapath();
@@ -28,6 +31,10 @@ public class MIPSsimulator {
 	}
 
 	public void loadProgram(Queue<Command> commands) {
+		this.lastCommandQueue = new LinkedList<>(commands);
+		this.window.resetProgram();
+		this.datapath.reset();
+		//this.window.clearProgramTable();
 		while(!commands.isEmpty()) {
 			Command com = commands.poll();
 			if (!com.getCommandLine().equals("")) {
@@ -69,18 +76,28 @@ public class MIPSsimulator {
 	}
 
 	public void resetWindow(){
-    	this.window.setCurrentRow(0);
-    	//TODO regiosters and datamemory
+		this.loadProgram(lastCommandQueue);
 	}
 
 	public void run(){
-    	while (this.datapath.oneStep()){
-			this.updateGui(datapath.getCurrentInstructionAddress(),datapath.getRegisterDataMap(), datapath.getMemoryDataMap());
-		}
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+		    	while (datapath.oneStep()){
+					updateGui(datapath.getCurrentInstructionAddress(),datapath.getRegisterDataMap(), datapath.getMemoryDataMap());
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+		    	}
+			}
+		}).start();
 	}
 
 	public void toggleRegisterValueFormat() {
 		this.window.toggleFormat();
 	}
-    
+
 }

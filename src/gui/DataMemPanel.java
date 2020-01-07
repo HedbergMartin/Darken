@@ -39,7 +39,7 @@ public class DataMemPanel extends JPanel {
 		JScrollPane scroll = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		this.add(scroll);
 
-		for (int i = 0; i < memorySize; i++) {
+		for (int i = 0; i < this.memSize; i++) {
 			setMemoryValue(0, i);
 		}
 	}
@@ -49,6 +49,12 @@ public class DataMemPanel extends JPanel {
 			throw new IndexOutOfBoundsException();
 		}
 		table.getModel().setValueAt(String.format("%02X", value), memoryLoc / 16, memoryLoc % 16 + 1);
+	}
+
+	public void reset() {
+		for (int i = 0; i < this.memSize; i++) {
+			setMemoryValue(0, i);
+		}
 	}
 
 }

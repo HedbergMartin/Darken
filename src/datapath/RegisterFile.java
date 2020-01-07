@@ -12,10 +12,15 @@ public class RegisterFile {
 
 
     public void readData(int readReg1, int readReg2){
-        if(registers.get(readReg1) != null){
+    	if (readReg1 == 0) {
+    		readData1 = 0;
+    	} else if(registers.get(readReg1) != null){
             readData1 = registers.get(readReg1);
         }
-        if(registers.get(readReg2) != null){
+
+    	if (readReg2 == 0) {
+    		readData2 = 0;
+    	} else if(registers.get(readReg2) != null){
             readData2 = registers.get(readReg2);
         }
 

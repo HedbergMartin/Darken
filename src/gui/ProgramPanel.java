@@ -51,4 +51,9 @@ public class ProgramPanel extends JPanel{
         }
 
     }
+
+	public void reset() {
+		this.model.getDataVector().removeAllElements();
+		this.model.fireTableDataChanged();
+	}
 }
