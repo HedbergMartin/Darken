@@ -1,9 +1,11 @@
 package compiler;
 
+import java.util.ArrayList;
+
 public class NopCommand extends Command {
 
-	public NopCommand(String line, int row) {
-		super(null, line, row);
+	public NopCommand(ArrayList<String> args, String line, int row) {
+		super(args, line, row);
 	}
 
 	@Override

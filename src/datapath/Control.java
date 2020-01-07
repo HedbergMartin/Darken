@@ -3,37 +3,53 @@ package datapath;
 public class Control {
 	
 	private int output = 0;
-	
+	private boolean RegDst = false;
+	private boolean ALUSrc = false;
+	private boolean MemToReg = false;
+	private boolean RegWrite = false;
+	private boolean MemRead = false;
+	private boolean MemWrite = false;
+	private boolean Branch = false;
+	private boolean ALUOp1 = false;
+	private boolean ALUOp2 = false;
+	private boolean Jump = false;
+	private boolean JumpReg = false;
 
-    public void perform(int instruction) {
+    public void perform(int instruction, int funct) {
     	switch (instruction) {
 			case 0:
-				output = 0b1000100010;
+				if (funct == 8) {
+					output = 0b10000000000;
+				} else {
+					output = 0b01000100010;
+				}
 				break;
 			case 2: //Jump
-				output = 0b0100000000;
+				output = 0b00100000000;
 				break;
 			case 4: //Beq
-				output = 0b0000000101;
+				output = 0b00000000101;
 				break;
 			case 8: //Addi
-				//THA FAQ! Either ALUop == 00(lw,sw) or 01(beq), no clue which is right
-				output = 0b0010100000;
+				output = 0b00010100000;
 				break;
 			case 13: //Ori
-				//THA FAQ! Either ALUop == 00 or 01, no clue which is right
-				output = 0b0010100000;
+				output = 0b00010100000;
 				break;
 			case 35: //LW
-				output = 0b0011110000;
+				output = 0b00011110000;
 				break;
 			case 43: //SW
-				output = 0b0010001000;
+				output = 0b00010001000;
 				break;
 			default:
 				System.out.println("wat da fak in controller");
 				break;
 		}
+    }
+    
+    public boolean isJumpReg() {
+    	return getBit(output, 10);
     }
 
     public boolean isRegDst() {

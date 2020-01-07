@@ -32,6 +32,7 @@ public class MIPSsimulator {
 	}
 
 	public void loadProgram(Queue<Command> commands) {
+		System.out.println(commands);
 		while(!commands.isEmpty()) {
 			Command com = commands.poll();
 			if (!com.getCommandLine().equals("")) {

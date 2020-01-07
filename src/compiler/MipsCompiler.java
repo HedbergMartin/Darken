@@ -136,7 +136,7 @@ public class MipsCompiler {
                 break;
                 
             case N:
-            	newCommand = new NopCommand(line, row);
+            	newCommand = new NopCommand(list, line, row);
             	break;
         }
 		return newCommand;

@@ -80,7 +80,7 @@ public class Datapath {
 
         int nextAddress = ALU.performAdd(currentInstuctionAddress,4); // Used as next address if no jump (+4)
 
-        control.perform(instructionMemory.returnBits(26,31));
+        control.perform(instructionMemory.returnBits(26,31), instructionMemory.returnBits(0, 5));
         aluControl.perform(instructionMemory.returnBits(0,5),control.isALUOP0(),control.isALUOp1());
 
 
@@ -113,31 +113,18 @@ public class Datapath {
 
         registerFile.perform(read1,read2,writeReg,lastMux,control.isRegWrite());
         
-        int jumpAddress = ShiftLeftTwo.perform(instructionMemory.returnBits(0, 25)) + (nextAddress << 28);
-        
+        int jumpAddress = ShiftLeftTwo.perform(instructionMemory.returnBits(0, 25)) + (nextAddress & -268435456);//Bitmask for bits 31-28
+
         int aluResult = ALU.performAdd(nextAddress, ShiftLeftTwo.perform(instructionMemory.returnBits(0, 15)));
 
         int muxResult1 = MUX.perform(nextAddress, aluResult, control.isBranch() && ALUres == 0);
         
         int muxResult2 = MUX.perform(muxResult1, jumpAddress, control.isJump());
         
-        pc.perform(muxResult2);
+        int muxJumpReg = MUX.perform(muxResult2, registerFile.readData1(), control.isJumpReg());
+        
+        pc.perform(muxJumpReg);
 
         return true;
     }
-
-
-    public static void main(String[] args){
-
-        Datapath d = new Datapath();
-
-        d.appendInstruction(537460737);
-        d.appendInstruction(537526274);
-        d.appendInstruction(537722876);
-
-        d.runAll();
-
-        System.out.println("Reg after oneStep: " + d.getRegisterDataMap());
-    }
-
 }

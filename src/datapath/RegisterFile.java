@@ -19,11 +19,11 @@ public class RegisterFile {
         }
 
 
-        if(registers.get(readReg1) != null){
-            readData1 = (int)registers.get(readReg1);
+        if(registers.get((short)readReg1) != null){
+            readData1 = (int)registers.get((short)readReg1);
         }
-        if(registers.get(readReg2) != null){
-            readData2 = (int)registers.get(readReg2);
+        if(registers.get((short)readReg2) != null){
+            readData2 = (int)registers.get((short)readReg2);
         }
 
     }
