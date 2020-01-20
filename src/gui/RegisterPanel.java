@@ -43,7 +43,11 @@ public class RegisterPanel extends JPanel {
             Entry<String, Integer> pair = (Entry<String, Integer>)it.next();
             if (pair.getValue() != 0) {
                 this.table.getModel().setValueAt(pair.getKey(), pair.getValue()-1, 0);
-                this.table.getModel().setValueAt(0, pair.getValue()-1, 1);
+                if (this.decimalFormat) {
+                    this.table.getModel().setValueAt(0, pair.getValue()-1, 1);
+                } else {
+                    this.table.getModel().setValueAt("0x00000000", pair.getValue()-1, 1);
+                }
             }
             it.remove(); // avoids a ConcurrentModificationException
         }
@@ -52,7 +56,11 @@ public class RegisterPanel extends JPanel {
     public void updateTable(String data, int register) {
         // Register-1 pga vi kör inte med $zero
         if (register != 0) {
-            this.table.getModel().setValueAt(data, register-1, 1);
+            if (this.decimalFormat) {
+                this.table.getModel().setValueAt(data, register-1, 1);
+            } else {
+                this.table.getModel().setValueAt("0x" + String.format("%08X", Integer.valueOf(data)), register-1, 1);
+            }
         }
     }
 

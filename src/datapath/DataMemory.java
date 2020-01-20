@@ -18,12 +18,16 @@ public class DataMemory {
         }
 
         if(memRead){
-            readData = memoryMap.get(address);
+            if (memoryMap.get(address) != null) {
+                readData = memoryMap.get(address);
+            } else {
+                readData = 0;
+            }
         }
 
     }
 
-    public int getReadData(){
+    public int getReadData() {
         return readData;
     }
 
