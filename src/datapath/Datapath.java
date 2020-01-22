@@ -91,10 +91,10 @@ public class Datapath {
         // Data memory ------
 
         int signExtend = (short)instructionMemory.returnBits(0,15);
-        
+        System.out.println(control.isALUSrc());
         int ALUres = ALU.perform(registerFile.readData1(),
                 MUX.perform(registerFile.readData2(),signExtend,control.isALUSrc()),
-                aluControl.getALUOp());
+                aluControl.getALUOp(), instructionMemory.returnBits(6, 10));
 
         int address = ALUres;
 

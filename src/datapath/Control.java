@@ -31,7 +31,7 @@ public class Control {
 				output = 0b00010001000;
 				break;
 			default:
-				System.out.println("wat da fak in controller");
+				System.out.println("Control error: " + Integer.toBinaryString(instruction));
 				break;
 		}
     }

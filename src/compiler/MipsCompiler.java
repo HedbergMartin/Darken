@@ -197,6 +197,9 @@ public class MipsCompiler {
         COMMAND_TYPES.put("or", type.R);
         COMMAND_TYPES.put("nor", type.R);
         COMMAND_TYPES.put("slt", type.R);
+        COMMAND_TYPES.put("sra", type.R);
+        COMMAND_TYPES.put("srl", type.R);
+        COMMAND_TYPES.put("ori", type.I);
         COMMAND_TYPES.put("lw", type.I);
         COMMAND_TYPES.put("sw", type.I);
         COMMAND_TYPES.put("beq", type.I);

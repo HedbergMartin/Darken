@@ -18,8 +18,12 @@ public class OpenFileActionListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-
-		JFileChooser fileChooser = new JFileChooser();
+		File file = new File("addiTest.s");
+		MipsCompiler compile = new MipsCompiler(file, null, null);
+		simulator.loadProgram(compile.getCommands());
+		return;
+		
+		/*JFileChooser fileChooser = new JFileChooser();
 		if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 			new Thread(new Runnable() {
 
@@ -30,7 +34,7 @@ public class OpenFileActionListener implements ActionListener {
 						simulator.loadProgram(compile.getCommands());
 				}
 			}).start();
-		}
+		}*/
 	}
 
 }

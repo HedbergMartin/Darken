@@ -3,10 +3,10 @@ package datapath;
 public class ALU {
 
     public static int performAdd(int leftOperand, int rightOperan){
-        return perform(leftOperand,rightOperan,2);
+        return perform(leftOperand,rightOperan,2, 0);
     }
-
-    public static int perform(int leftOperand, int rightOperand, int operation){
+    
+    public static int perform(int leftOperand, int rightOperand, int operation, int shamt){
 
         int ALUresult = 0;
 
@@ -68,10 +68,11 @@ public class ALU {
                 break;
             case 7:
                 //SRL
-                ALUresult = leftOperand >> rightOperand;
+                ALUresult = rightOperand >>> shamt;
                 break;
             case 8:
                 //SRA
+                ALUresult = rightOperand >> shamt;
                 //TODO
                 break;
             case 9:
